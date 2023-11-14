@@ -145,11 +145,11 @@ class MyApp extends StatelessWidget{
                 ],
               ),
               Positioned(
-                bottom: -310,
+                bottom: -180,
                 left: 0,
                 right: 0,
                 child: Transform.scale(
-                  scale: 2,
+                  scale: 1.5,
                   child: SvgPicture.asset(
                     'assets/svg/splash_stars.svg',
                     fit: BoxFit.fitWidth,
