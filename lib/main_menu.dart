@@ -106,7 +106,6 @@ class MainMenu extends StatelessWidget {
             ),
 
             //декоративная звезда снизу
-            //декоративная звезда снизу
             Expanded(
               child: Align(
                 alignment: Alignment.bottomRight,
