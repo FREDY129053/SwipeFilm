@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
@@ -9,51 +9,49 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          scaffoldBackgroundColor: Color.fromRGBO(245, 240, 225, 1),
-          // textTheme: TextTheme(
-          //   // Тема для больших заголовков
-          //   bodyLarge: TextStyle(
-          //   fontWeight: FontWeight.w700,
-          //     fontSize: 32,
-          //     color: mainTextColor,
-          //   ),
-          //   // Тема для подписей
-          //   bodySmall: TextStyle(
-          //     fontWeight: FontWeight.w500,
-          //     fontSize: 14,
-          //     color: mainTextColor,
-          //   ),
-          // ),
+        scaffoldBackgroundColor: Color.fromRGBO(245, 240, 225, 1),
+        // textTheme: TextTheme(
+        //   // Тема для больших заголовков
+        //   bodyLarge: TextStyle(
+        //   fontWeight: FontWeight.w700,
+        //     fontSize: 32,
+        //     color: mainTextColor,
+        //   ),
+        //   // Тема для подписей
+        //   bodySmall: TextStyle(
+        //     fontWeight: FontWeight.w500,
+        //     fontSize: 14,
+        //     color: mainTextColor,
+        //   ),
+        // ),
       ),
-
       home: Scaffold(
         body: SafeArea(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(padding: EdgeInsets.only(top: 20),),
+                  Padding(padding: EdgeInsets.only(top: 15),),
                   Container(
+
                     width: 138,
                     height: 138,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromRGBO(184, 9, 72, 0.25).withOpacity(0.1),
+                          color: Color.fromRGBO(184, 9, 72, 0.25).withOpacity(0.06),
                           spreadRadius: 1,
                           blurRadius: 30,
                           offset: Offset(0, 4), // changes position of shadow
                         ),
                       ],
-                      image: DecorationImage(
-                        image: Svg(
-                          'assets/svg/app_logo.svg',
-                        ),
-                      ),
                     ),
+                    child: SvgPicture.asset('assets/svg/applogo_withshadow.svg'),
                   ),
+
                   // Padding(padding: EdgeInsets.only(top: 40),),
                   // SvgPicture.asset(
                   //   'assets/svg/app_logo.svg',
@@ -62,18 +60,12 @@ class MyApp extends StatelessWidget{
                   // ),
                   Padding(padding: EdgeInsets.only(top: 5),),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
                         width: 50,
                         height: 50,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: Svg(
-                              'assets/svg/star.svg',
-                            ),
-                          ),
-                        ),
+                        child: SvgPicture.asset('assets/svg/splash_titlestar.svg'),
                       ),
                       Text('Добро пожаловать\n в SwipeFilm',
                         textAlign: TextAlign.center,
@@ -85,16 +77,11 @@ class MyApp extends StatelessWidget{
                       Container(
                         width: 50,
                         height: 50,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: Svg(
-                              'assets/svg/star.svg',
-                            ),
-                          ),
-                        ),
+                        child: SvgPicture.asset('assets/svg/splash_titlestar.svg'),
                       ),
                     ],
                   ),
+
 
                   // row для звезд и текста
                   // Padding(padding: EdgeInsets.all(2),),
@@ -113,28 +100,28 @@ class MyApp extends StatelessWidget{
                         fontSize: 18,
                         color: mainTextColor),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 80),),
+                  Padding(padding: EdgeInsets.only(top: 100),),
                   Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
-                        elevation: 10,
-                        backgroundColor: Color.fromRGBO(231, 104, 56, 1),
-                        minimumSize: Size(320, 55),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
+                          elevation: 10,
+                          backgroundColor: Color.fromRGBO(231, 104, 56, 1),
+                          minimumSize: Size(320, 55),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                         ),
-                      ),
-                      onPressed: () {},
-                      child: Text('Войти',
-                        style: GoogleFonts.raleway
-                          (fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Colors.white),
-                      ),
-                    )
+                        onPressed: () {},
+                        child: Text('Войти',
+                          style: GoogleFonts.raleway
+                            (fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.white),
+                        ),
+                      )
                   ),
-                  Padding(padding: EdgeInsets.only(top: 10),),
+                  Padding(padding: EdgeInsets.only(top: 20),),
                   Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -155,24 +142,27 @@ class MyApp extends StatelessWidget{
                         ),
                       )
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 206,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: Svg(
-                          'assets/svg/stars.svg',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                ],
+              ),
+              Positioned(
+                bottom: -180,
+                left: 0,
+                right: 0,
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: SvgPicture.asset(
+                    'assets/svg/splash_stars.svg',
+                    fit: BoxFit.fitWidth,
                   ),
-                 ]
-              )
-            ]
-          )
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+
+
     );
   }
 }
+
