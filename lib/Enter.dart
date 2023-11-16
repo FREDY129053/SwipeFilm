@@ -68,21 +68,23 @@ class _MyAppState extends State<MyApp>
                         ),
                       ),
 
-                  Container(
-                    margin: EdgeInsets.only(top: 20, right: 250),
-                    child: Text('Логин',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.raleway
-                        (fontWeight: FontWeight.w700,
-                          fontSize: 24,
-                          color: mainTextColor),
-                    ),
-                  ),
+
                   Container(
                     width: 350,
                     padding: EdgeInsets.only(top: 10),
                     child: Column(
                       children: [
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          alignment: Alignment.centerLeft,
+                          child: Text('Логин',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.raleway
+                              (fontWeight: FontWeight.w700,
+                                fontSize: 24,
+                                color: mainTextColor),
+                          ),
+                        ),
                         TextField(
                           style: TextStyle(
                               color: Color.fromRGBO(186, 151, 161, 1)),
@@ -99,11 +101,11 @@ class _MyAppState extends State<MyApp>
                           ),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Container(
-                          padding: EdgeInsets.only(bottom: 10),
-                          margin: EdgeInsets.only(right: 240),
+                          padding: EdgeInsets.all(10),
+                          alignment: Alignment.centerLeft,
                           child: Text('Пароль',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.raleway
