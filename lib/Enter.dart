@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp>
           )
       ),
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           body: Row(
             mainAxisAlignment: MainAxisAlignment.center,
