@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MainMenu());
-}
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
 
   @override
+  _MainMenuState createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu>
+{
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Color(0xFFF5F0E1),
         body: Column(
           children: [
@@ -53,7 +54,9 @@ class MainMenu extends StatelessWidget {
                     height: 55,
                     width: 300, // Specify your desired width here
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/create_room');
+                      },
                       child: Text(
                         "СОЗДАТЬ КОМНАТУ",
                         style: GoogleFonts.raleway(
@@ -124,13 +127,8 @@ class MainMenu extends StatelessWidget {
                 ),
               ),
             )
-
-
           ],
         ),
-      ),
-    );
+      );
   }
 }
-
-

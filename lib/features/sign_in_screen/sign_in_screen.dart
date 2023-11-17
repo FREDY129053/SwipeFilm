@@ -3,27 +3,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// void main() => runApp(MyApp());
-void main() {
-  runApp(
-    MaterialApp(home: MyApp()),
-  );
-}
-
-class MyApp extends StatefulWidget{
-  const MyApp({Key? key}) : super(key: key);
+class SignIn extends StatefulWidget{
+  const SignIn({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _SignInState createState() => _SignInState();
 }
 
-class _MyAppState extends State<MyApp>
+class _SignInState extends State<SignIn>
 {
   @override
   Widget build(BuildContext context) {
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/svg/Group 38_1.png')
           )
@@ -39,15 +32,15 @@ class _MyAppState extends State<MyApp>
                   Container(
                     width: 100,
                     height: 100,
-                    margin: EdgeInsets.only(top: 50),
+                    margin: EdgeInsets.only(top: 80),
                     child: SvgPicture.asset('assets/svg/app_logo.svg'),
                   ),
 
                   Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text('Регистрация',
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text('Войти',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.raleway
                             (fontWeight: FontWeight.w700,
@@ -58,8 +51,8 @@ class _MyAppState extends State<MyApp>
                   ),
 
                   Container(
-                    padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                    child: Text('Для пользования приложением требуется\nналичие аккаунта',
+                    margin: EdgeInsets.only(top: 5),
+                    child: Text('Войдите в свой аккаунт, чтобы пользоваться\n приложением',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.raleway
                         (fontWeight: FontWeight.w500,
@@ -70,14 +63,13 @@ class _MyAppState extends State<MyApp>
 
 
                   Container(
-                      width: MediaQuery.of(context).size.width*0.9,
-
+                      width: 350,
                       padding: EdgeInsets.only(top: 10),
                       child: Column(
                         children: [
                           Container(
-                            alignment: Alignment.centerLeft,
                             padding: EdgeInsets.all(10),
+                            alignment: Alignment.centerLeft,
                             child: Text('Логин',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
@@ -93,7 +85,7 @@ class _MyAppState extends State<MyApp>
                                 fillColor: Color.fromRGBO(255, 248, 246, 1),
                                 filled: true,
                                 hintText: 'Введите логин',
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25),
@@ -101,13 +93,12 @@ class _MyAppState extends State<MyApp>
                                 )
                             ),
                           ),
-                          SizedBox(
-                            height:20,
+                          const SizedBox(
+                            height: 20,
                           ),
                           Container(
-                            alignment: Alignment.centerLeft,
                             padding: EdgeInsets.all(10),
-                            // margin: EdgeInsets.only(right: 240),
+                            alignment: Alignment.centerLeft,
                             child: Text('Пароль',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
@@ -119,7 +110,7 @@ class _MyAppState extends State<MyApp>
                           TextField(
                             obscureText: true,
                             obscuringCharacter: "*",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color.fromRGBO(186, 151, 161, 1)),
                             decoration: InputDecoration(
                                 suffixIcon: Icon(Icons.remove_red_eye),
@@ -127,7 +118,7 @@ class _MyAppState extends State<MyApp>
                                 fillColor: Color.fromRGBO(255, 248, 246, 1),
                                 filled: true,
                                 hintText: 'Введите пароль',
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(25),
@@ -135,47 +126,18 @@ class _MyAppState extends State<MyApp>
                                 )
                             ),
                           ),
-                          SizedBox(
-                            height: 30,
-                          ),
                           Container(
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.all(10),
-                            // margin: EdgeInsets.only(right: 70),
-                            child: Text('Подтвердите пароль',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.raleway
-                                (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  color: mainTextColor),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: TextField(
-                              obscureText: true,
-                              obscuringCharacter: "*",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(186, 151, 161, 1)),
-                              decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.remove_red_eye),
-                                  suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
-                                  fillColor: Color.fromRGBO(255, 248, 246, 1),
-                                  filled: true,
-                                  hintText: 'Введите пароль',
-                                  hintStyle: TextStyle(
-                                      color: Color.fromRGBO(186, 151, 161, 1)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                    borderSide: BorderSide.none,
-                                  )
+                            alignment: Alignment.centerRight,
+                            child:  TextButton(
+                              child: Text('Забыли пароль?'),
+                              style: TextButton.styleFrom(
+                                  foregroundColor: mainTextColor
                               ),
+                              onPressed: () {},
                             ),
                           ),
-
                           Container(
-                              height: MediaQuery.of(context).size.height*0.2,
-                              alignment: Alignment.bottomCenter,
+                              margin: EdgeInsets.only(top: 20),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
@@ -186,8 +148,10 @@ class _MyAppState extends State<MyApp>
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                 ),
-                                onPressed: () {},
-                                child: Text('Создать аккаунт',
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed('/main');
+                                },
+                                child: Text('Войти',
                                   style: GoogleFonts.raleway
                                     (fontWeight: FontWeight.w500,
                                       fontSize: 20,
@@ -195,12 +159,39 @@ class _MyAppState extends State<MyApp>
                                 ),
                               )
                           ),
-
-
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 200),
+                                child: Text('Нет аккаунта?',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway
+                                    (fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: mainTextColor),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 200),
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      foregroundColor: Color.fromRGBO(231, 104, 56, 1)
+                                  ),
+                                  onPressed: () {},
+                                  child: Text('Зарегистрируйтесь',
+                                    style: GoogleFonts.raleway
+                                      (fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
                         ],
                       )
                   ),
-
                 ],
               )
             ],
