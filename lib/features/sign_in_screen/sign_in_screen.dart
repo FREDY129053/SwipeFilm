@@ -32,14 +32,14 @@ class _SignInState extends State<SignIn>
                   Container(
                     width: 100,
                     height: 100,
-                    margin: EdgeInsets.only(top: 80),
+                    margin: EdgeInsets.only(top: 60),
                     child: SvgPicture.asset('assets/svg/app_logo.svg'),
                   ),
 
                   Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.only(top: 2),
                         child: Text('Войти',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.raleway
@@ -64,7 +64,7 @@ class _SignInState extends State<SignIn>
 
                   Container(
                       width: 350,
-                      padding: EdgeInsets.only(top: 10),
+                      padding: EdgeInsets.only(top: 15),
                       child: Column(
                         children: [
                           Container(
@@ -74,7 +74,7 @@ class _SignInState extends State<SignIn>
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
                                 (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 23,
                                   color: mainTextColor),
                             ),
                           ),
@@ -103,7 +103,7 @@ class _SignInState extends State<SignIn>
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
                                 (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 23,
                                   color: mainTextColor),
                             ),
                           ),
@@ -163,7 +163,7 @@ class _SignInState extends State<SignIn>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(top: 200),
+                                padding: EdgeInsets.only(top: 185),
                                 child: Text('Нет аккаунта?',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway
@@ -173,7 +173,7 @@ class _SignInState extends State<SignIn>
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 200),
+                                padding: EdgeInsets.only(top: 185),
                                 child: TextButton(
                                   style: TextButton.styleFrom(
                                       foregroundColor: Color.fromRGBO(231, 104, 56, 1)

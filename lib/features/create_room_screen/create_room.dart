@@ -124,7 +124,7 @@ class _MainMenuState extends State<CreateRoom> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 22.0), // Значение отступа можно изменить под свои нужды
+                            padding: EdgeInsets.only(left: 20, top: 15, bottom: 10), // Значение отступа можно изменить под свои нужды
                             child: Text(
                               "Придумайте пароль",
                               style: GoogleFonts.raleway(
@@ -136,6 +136,7 @@ class _MainMenuState extends State<CreateRoom> {
                           ),
                         ),
                         Container(
+                          width: 380,
                           decoration: BoxDecoration(
                             color: Color(0xFFFFF8F6),
                             borderRadius: BorderRadius.circular(25),

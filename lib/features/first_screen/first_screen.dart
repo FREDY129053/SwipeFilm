@@ -15,6 +15,7 @@ class _FirstScreenState extends State<FirstScreen> {
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
 
       return Scaffold(
+        backgroundColor: Color(0xFFF5F0E1),
           body: SafeArea(
             child: Stack(
               children: [

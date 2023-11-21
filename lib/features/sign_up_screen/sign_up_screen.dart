@@ -32,14 +32,14 @@ class _SignUpState extends State<SignUp>
                   Container(
                     width: 100,
                     height: 100,
-                    margin: const EdgeInsets.only(top: 50),
+                    margin: const EdgeInsets.only(top: 60),
                     child: SvgPicture.asset('assets/svg/app_logo.svg'),
                   ),
 
                   Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: EdgeInsets.all(1),
                         child: Text('Регистрация',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.raleway
@@ -63,9 +63,9 @@ class _SignUpState extends State<SignUp>
 
 
                   Container(
-                      width: MediaQuery.of(context).size.width*0.9,
+                      width: MediaQuery.of(context).size.width*0.85,
 
-                      padding: EdgeInsets.only(top: 10),
+                      padding: EdgeInsets.only(top: 15),
                       child: Column(
                         children: [
                           Container(
@@ -75,7 +75,7 @@ class _SignUpState extends State<SignUp>
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
                                 (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 23,
                                   color: mainTextColor),
                             ),
                           ),
@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUp>
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
                                 (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 23,
                                   color: mainTextColor),
                             ),
                           ),
@@ -139,12 +139,11 @@ class _SignUpState extends State<SignUp>
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway
                                 (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
+                                  fontSize: 23,
                                   color: mainTextColor),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: TextField(
                               obscureText: true,
                               obscuringCharacter: "*",
@@ -155,7 +154,7 @@ class _SignUpState extends State<SignUp>
                                   suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
                                   fillColor: Color.fromRGBO(255, 248, 246, 1),
                                   filled: true,
-                                  hintText: 'Введите пароль',
+                                  hintText: 'Введите пароль еще раз',
                                   hintStyle: const TextStyle(
                                       color: Color.fromRGBO(186, 151, 161, 1)),
                                   border: OutlineInputBorder(
@@ -167,7 +166,7 @@ class _SignUpState extends State<SignUp>
                           ),
 
                           Container(
-                              height: MediaQuery.of(context).size.height*0.2,
+                              height: MediaQuery.of(context).size.height*0.15,
                               alignment: Alignment.bottomCenter,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
