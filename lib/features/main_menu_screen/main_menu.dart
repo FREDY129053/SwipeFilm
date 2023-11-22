@@ -61,8 +61,8 @@ class _MainMenuState extends State<MainMenu>
                         "СОЗДАТЬ КОМНАТУ",
                         style: GoogleFonts.raleway(
                           color: Colors.white,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 23,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       style: ButtonStyle(
@@ -89,8 +89,8 @@ class _MainMenuState extends State<MainMenu>
                         "ВЛЕТЕТЬ В КОМНАТУ",
                         style: GoogleFonts.raleway(
                           color: Colors.white,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 23,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       style: ButtonStyle(
