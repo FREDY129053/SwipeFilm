@@ -18,21 +18,19 @@ class _EnterRoomState extends State<EnterRoom>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFF5F0E1),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
+      body: Column(
             children: [
               Stack(
                 alignment: AlignmentDirectional.topCenter,
                 children: [
+                  // Звезда сверху
                   Transform.translate(
                     offset: Offset(0, -220),
                     child: Container(
-                      width: 423,
                       child: SvgPicture.asset('assets/svg/mainmenu_star1.svg'),
                     ),
                   ),
+                  // текст на звезде
                   Container(
                     padding: EdgeInsets.only(top: 80),
                     child: Text('Войти в\nкомнату',
@@ -44,18 +42,21 @@ class _EnterRoomState extends State<EnterRoom>
                       ),
                     ),
                   ),
-                  Transform.translate(
-                    offset: Offset(200, 700),
-                    child: Container(
-                      child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-                    ),
-                  ),
 
+                  // Transform.translate(
+                  //   offset: Offset(200, 700),
+                  //   child: Container(
+                  //     child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+                  //   ),
+                  // ),
+
+                 // колонка с текстовыми полями
                   Container(
                       width: 350,
                       padding: EdgeInsets.only(top: 300),
                       child: Column(
                         children: [
+                          // текст ID
                           Container(
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
@@ -68,13 +69,13 @@ class _EnterRoomState extends State<EnterRoom>
                                   ),
                             ),
                           ),
+                          // виджет для тени
                           Material(
                             elevation: 20,
                             shadowColor: Color.fromRGBO(184, 9, 72, 0.15),
                             borderRadius: BorderRadius.circular(25),
+                            // поле для заполнения
                             child: TextField(
-                              obscureText: true,
-                              obscuringCharacter: "*",
                               style: const TextStyle(
                                   color: Color.fromRGBO(186, 151, 161, 1)),
                               decoration: InputDecoration(
@@ -93,9 +94,12 @@ class _EnterRoomState extends State<EnterRoom>
                             ),
                           ),
 
+                          // отступ между полями
                           const SizedBox(
                             height: 20,
                           ),
+
+                          // текст
                           Container(
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
@@ -108,11 +112,15 @@ class _EnterRoomState extends State<EnterRoom>
                                   ),
                             ),
                           ),
+
+                          // тень
                           Material(
                             elevation: 20,
                             shadowColor: Color.fromRGBO(184, 9, 72, 0.15),
                             borderRadius: BorderRadius.circular(25),
+                            // поле ввода
                             child: TextField(
+                              // параметр для того чтобы буквы стали звездами
                               obscureText: true,
                               obscuringCharacter: "*",
                               style: const TextStyle(
@@ -133,8 +141,9 @@ class _EnterRoomState extends State<EnterRoom>
                             ),
                           ),
 
+                          // кнопка входа
                           Container(
-                              margin: EdgeInsets.only(top: 60),
+                              margin: EdgeInsets.only(top: 50),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
@@ -163,90 +172,26 @@ class _EnterRoomState extends State<EnterRoom>
                 ],
               ),
 
-
-              // Expanded(
-              //     child: Transform.translate(
-              //         offset: Offset(200, 50),
-              //       child: Container(
-              //         child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-              //       ),
-              //     ),
-              // ),
-              // Expanded(
-              //   child: Align(
-              //     alignment: Alignment.bottomRight,
-              //     child: FractionallySizedBox(
-              //       alignment: Alignment.bottomRight,
-              //       widthFactor: 0.3, // регулируйте это значение для смещения изображения вправо
-              //       heightFactor: 0.8,
-              //       child: OverflowBox(
-              //         maxWidth: double.infinity,
-              //         maxHeight: double.infinity,
-              //         child: Transform.scale(
-              //           scale: 0.8, // регулируйте это значение для уменьшения масштаба звезды
-              //           child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // )
+              // звезда снизу
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: FractionallySizedBox(
+                    alignment: Alignment.bottomRight,
+                    widthFactor: 0.3, // регулируйте это значение для смещения изображения вправо
+                    heightFactor: 0.55,
+                    child: OverflowBox(
+                      maxWidth: double.infinity,
+                      maxHeight: double.infinity,
+                      child: Transform.scale(
+                        scale: 0.8, // регулируйте это значение для уменьшения масштаба звезды
+                        child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
-          ),
-
-          //верхняя часть со звездой и текстом
-          // Transform.translate(
-          //   offset: Offset(0, -220), // для того, чтобы звезда находилась наверху и была обрезана рамками экрана
-          //   child: Stack(
-          //     alignment: Alignment.center,
-          //     children: [
-          //       //звезда
-          //       Container(
-          //         child: SvgPicture.asset('assets/svg/mainmenu_star1.svg'),
-          //       ),
-          //
-          //       //текст на звезде
-          //       Transform.translate(
-          //         offset: Offset(0, 70), // Adjust the value as necessary
-          //         child: Text(
-          //           "Войти в\nкомнату",
-          //           textAlign: TextAlign.center,
-          //           style: GoogleFonts.raleway(
-          //             color: Color(0xFF873B31),
-          //             fontSize: 32,
-          //             fontWeight: FontWeight.w700,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-
-          //колонна из двух кнопок
-
-          // Container(
-          //   width: 350,
-          //   padding: EdgeInsets.only(top: 30),
-          //   child: Column(
-          //     children: [
-          //       Container(
-          //         padding: EdgeInsets.all(10),
-          //         alignment: Alignment.topLeft,
-          //         child: Text('ID',
-          //         textAlign: TextAlign.center,
-          //         style: GoogleFonts.raleway
-          //           (fontWeight: FontWeight.w700,
-          //             fontSize: 23,
-          //             color: Color(0xFF873B31),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-
-          //декоративная звезда снизу
-
-        ],
       ),
     );
   }
