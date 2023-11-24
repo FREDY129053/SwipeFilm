@@ -52,7 +52,7 @@ class _SignInState extends State<SignIn>
 
                   Container(
                     margin: EdgeInsets.only(top: 5),
-                    child: Text('Войдите в свой аккаунт, чтобы пользоваться\n приложением',
+                    child: Text('Войдите в свой аккаунт, чтобы\nпользоваться приложением',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.raleway
                         (fontWeight: FontWeight.w500,
@@ -64,7 +64,7 @@ class _SignInState extends State<SignIn>
 
                   Container(
                       width: 350,
-                      padding: EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 20),
                       child: Column(
                         children: [
                           Container(
@@ -137,7 +137,7 @@ class _SignInState extends State<SignIn>
                             ),
                           ),
                           Container(
-                              margin: EdgeInsets.only(top: 20),
+                              margin: EdgeInsets.only(top: 40),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
@@ -163,7 +163,7 @@ class _SignInState extends State<SignIn>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(top: 185),
+                                padding: EdgeInsets.only(top: 10),
                                 child: Text('Нет аккаунта?',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway
@@ -173,7 +173,7 @@ class _SignInState extends State<SignIn>
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 185),
+                                padding: EdgeInsets.only(top: 10),
                                 child: TextButton(
                                   style: TextButton.styleFrom(
                                       foregroundColor: Color.fromRGBO(231, 104, 56, 1)
