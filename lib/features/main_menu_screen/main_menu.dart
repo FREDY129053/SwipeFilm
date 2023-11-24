@@ -84,7 +84,9 @@ class _MainMenuState extends State<MainMenu>
                     height: 55,
                     width: 300, // Specify your desired width here
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/enter_room');
+                      },
                       child: Text(
                         "ВЛЕТЕТЬ В КОМНАТУ",
                         style: GoogleFonts.raleway(
