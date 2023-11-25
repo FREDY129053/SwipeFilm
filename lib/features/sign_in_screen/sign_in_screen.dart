@@ -14,6 +14,7 @@ class _SignInState extends State<SignIn>
 {
   @override
   Widget build(BuildContext context) {
+    // адаптивка
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
@@ -26,6 +27,7 @@ class _SignInState extends State<SignIn>
                   Stack(
                     alignment: AlignmentDirectional.topCenter,
                     children: [
+                      //звезда сверху
                       Transform.translate(
                         offset: Offset(-160, 220),
                         child: RotationTransition(
@@ -36,6 +38,8 @@ class _SignInState extends State<SignIn>
                           ),
                         ),
                       ),
+
+                      // звезда снизу
                       Transform.translate(
                         offset: Offset(170, 550),
                         child: ScaleTransition(
@@ -46,6 +50,8 @@ class _SignInState extends State<SignIn>
                           ),
                         ),
                       ),
+
+                      // логотип
                       Container(
                         alignment: Alignment.topCenter,
                         width: 100,
@@ -54,6 +60,7 @@ class _SignInState extends State<SignIn>
                         child: SvgPicture.asset('assets/svg/app_logo.svg'),
                       ),
 
+                      // первый текст
                       Align(
                           alignment: Alignment.center,
                           child: Padding(
@@ -68,6 +75,7 @@ class _SignInState extends State<SignIn>
                           )
                       ),
 
+                      // второй текст
                       Container(
                         margin: EdgeInsets.only(top: deviceHeight(context)*0.22),
                         child: Text('Войдите в свой аккаунт, чтобы\nпользоваться приложением',
@@ -79,7 +87,7 @@ class _SignInState extends State<SignIn>
                         ),
                       ),
 
-
+                      //колонка из полей
                       Container(
                           //width: 350,
                           padding: EdgeInsets.only(
@@ -88,6 +96,8 @@ class _SignInState extends State<SignIn>
                               right: deviceWidth(context)*0.07),
                           child: Column(
                             children: [
+
+                              // логин
                               Container(
                                 padding: EdgeInsets.all(10),
                                 alignment: Alignment.centerLeft,
@@ -99,6 +109,8 @@ class _SignInState extends State<SignIn>
                                       color: mainTextColor),
                                 ),
                               ),
+
+                              // поле для ввода логина
                               TextField(
                                 style: TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
@@ -114,9 +126,13 @@ class _SignInState extends State<SignIn>
                                     )
                                 ),
                               ),
+
+                              // отступ
                               const SizedBox(
                                 height: 20,
                               ),
+
+                              // пароль
                               Container(
                                 padding: EdgeInsets.all(10),
                                 alignment: Alignment.centerLeft,
@@ -128,6 +144,8 @@ class _SignInState extends State<SignIn>
                                       color: mainTextColor),
                                 ),
                               ),
+
+                              // поле для ввода пароля
                               TextField(
                                 obscureText: true,
                                 obscuringCharacter: "*",
@@ -147,6 +165,8 @@ class _SignInState extends State<SignIn>
                                     )
                                 ),
                               ),
+
+                              // кнопка под паролем
                               Container(
                                 alignment: Alignment.centerRight,
                                 child:  TextButton(
@@ -157,6 +177,8 @@ class _SignInState extends State<SignIn>
                                   onPressed: () {},
                                 ),
                               ),
+
+                              // кнопка входа
                               Container(
                                   margin: EdgeInsets.only(top: deviceHeight(context)*0.05),
                                   child: ElevatedButton(
@@ -180,9 +202,12 @@ class _SignInState extends State<SignIn>
                                     ),
                                   )
                               ),
+
+                              //ряд для текста и кнопки
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  // текст
                                   Padding(
                                     padding: EdgeInsets.only(top: deviceHeight(context)*0.01),
                                     child: Text('Нет аккаунта?',
@@ -193,6 +218,8 @@ class _SignInState extends State<SignIn>
                                           color: mainTextColor),
                                     ),
                                   ),
+
+                                  // кнопка для регистрации
                                   Padding(
                                     padding: EdgeInsets.only(top: deviceHeight(context)*0.01),
                                     child: TextButton(
