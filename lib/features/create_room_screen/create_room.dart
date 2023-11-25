@@ -8,200 +8,284 @@ class CreateRoom extends StatefulWidget {
   _MainMenuState createState() => _MainMenuState();
 }
 
+
 class _MainMenuState extends State<CreateRoom> {
-  int numberOfPeople = 1;
+
   bool _obscureText = true;
-  String title = 'Фильм';
   final passwordController = TextEditingController();
+
+
+  int _peopleValue = 0;
+  int _genreValue = 0; //id 0 - фильм, 1 - сериал, 2 - аниме программисты если что меняйте под себя
+
+  //кастомные кнопки выбора (радио-кнопки),
+  // на входе получают строку с текстом, который отображается в кнопке
+  //и index значение, на которое нужно заменить значение выбора
+  Widget peopleNumberButton(String text, int index) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _peopleValue = index;
+        });
+      },
+      child: Text(
+        text,
+        style: GoogleFonts.raleway(
+          color: Color(0xFF873B31),
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: (_peopleValue == index) ? Color(0xFFFFAD0F) : Color(
+            0xFFFFF8F6),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        side: BorderSide(
+            color: (_peopleValue == index) ? Color(0xFF873B31) : Colors
+                .transparent),
+        elevation: 10,
+        shadowColor: Color(0x33B80948),
+      ),
+    );
+  }
+
+  //вариант кнопки для категорий контента
+  Widget genreButton(String text, int index) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _genreValue = index;
+        });
+      },
+      child: Text(
+        text,
+        style: GoogleFonts.raleway(
+          color: Color(0xFF873B31),
+          fontSize: 24.0,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
+        backgroundColor: (_genreValue == index) ? Color(0xFFFFAD0F) : Color(
+            0xFFFFF8F6),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        side: BorderSide(
+            color: (_genreValue == index) ? Color(0xFF873B31) : Colors
+                .transparent),
+        elevation: 10,
+        shadowColor: Color(0x33B80948),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFF5F0E1),
-        body: Transform.translate(
-          offset: Offset(0, -180),
-          child: Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topCenter,
-                child: Transform.translate(
-                  offset: Offset(0, -60),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        child: SvgPicture.asset('assets/svg/mainmenu_star1.svg'),
+        body: SingleChildScrollView(
+          child: Transform.translate(
+            offset: Offset(0, -(MediaQuery.of(context).size.height * 0.18)),
+            child: Column(
+              children: <Widget>[
+
+                //верхняя часть(звезда и надпись в ней Создать комнату)
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/mainmenu_star1.svg',
+                      width: MediaQuery.of(context).size.width, //если это убрать, появится ненужный пробел между звездой и настройками
+                    ),
+                    Transform.translate(
+                      offset: Offset(0, (MediaQuery.of(context).size.height * 0.05)),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // ElevatedButton(
+                            //   onPressed: () {},
+                            //   child: Icon(
+                            //     Icons.arrow_back,
+                            //     color: Color(0xFF873B31),
+                            //   ),
+                            //   style: ElevatedButton.styleFrom(
+                            //     backgroundColor: Color(0xFFF5F0E1),
+                            //     shape: CircleBorder(),
+                            //     padding: EdgeInsets.all(10),
+                            //     elevation: 10,
+                            //     shadowColor: Color(0x33B80948),
+                            //   ),
+                            // ),
+                            SizedBox(width: 10),
+                            // Adjust the space between elements
+                            Text(
+                              "Создать\nкомнату",
+                              style: GoogleFonts.raleway(
+                                color: Color(0xFF873B31),
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            // Icon(Icons.add, color: Colors.transparent),
+                            // Icon(Icons.add, color: Colors.transparent), это нужно для того, чтобы текст был ближе к центру
+                          ],
+                        ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+
+                //основные настройки комнаты
+
+                //подпись Сколько человек?
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 22.0),
+                    // Значение отступа можно изменить под свои нужды
+                    child: Text(
+                      "Сколько человек?",
+                      style: GoogleFonts.raleway(
+                        color: Color(0xFF873B31),
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w700,
                       ),
-                      Transform.translate(
-                        offset: Offset(0, 65),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+
+                //выбор количества человек
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    peopleNumberButton("2", 2),
+                    peopleNumberButton("3", 3),
+                    peopleNumberButton("4", 4),
+                    peopleNumberButton("5", 5),
+                    peopleNumberButton("6", 6),
+                  ],
+                ),
+                SizedBox(height: 10),
+
+
+                //выбор категории контента
+                Container(
+                  color: Color(0xFFFFF8F6),
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
                         child: Text(
-                          "Создать\nкомнату",
+                          "Что будете смотреть?",
                           style: GoogleFonts.raleway(
                             color: Color(0xFF873B31),
-                            fontSize: 30.0,
+                            fontSize: 22.0,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
+
+                      //кнопки выбора контента
+                      SizedBox(height: 10),
+                      genreButton("Фильм", 0),
+                      // SizedBox(height: 10),
+                      // genreButton("Сериал", 1),
+                      SizedBox(height: 10),
+                      genreButton("Аниме", 2),
                     ],
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 22.0), // Значение отступа можно изменить под свои нужды
-                            child: Text(
-                              "Сколько человек?",
-                              style: GoogleFonts.raleway(
-                                color: Color(0xFF873B31),
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: List.generate(
-                            5,
-                                (index) {
-                              int i = index + 1;
-                              return Expanded(
-                                child: Row(
-                                  children: [
-                                    Radio<int>(
-                                      value: i,
-                                      groupValue: numberOfPeople,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          numberOfPeople = value!;
-                                        });
-                                      },
-                                    ),
-                                    Text(i == 5 ? '5' : i.toString())
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Что будете смотреть",
-                            style: GoogleFonts.raleway(
-                              color: Color(0xFF873B31),
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        for (var t in ['Фильм', 'Сериал', 'Аниме'])
-                          RadioListTile<String>(
-                            title: Text(t),
-                            value: t,
-                            groupValue: title,
-                            onChanged: (String? value) {
-                              setState(() {
-                                title = value!;
-                              });
-                            },
-                          ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 20, top: 15, bottom: 10), // Значение отступа можно изменить под свои нужды
-                            child: Text(
-                              "Придумайте пароль",
-                              style: GoogleFonts.raleway(
-                                color: Color(0xFF873B31),
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 380,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFFF8F6),
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(184, 9, 72, 0.15),
-                                blurRadius: 19,
-                                offset: Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            obscureText: true,
-                            obscuringCharacter: "*",
-                            style: TextStyle(
-                                color: Color.fromRGBO(186, 151, 161, 1)),
-                            decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.remove_red_eye),
-                                suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
-                                fillColor: Color.fromRGBO(255, 248, 246, 1),
-                                filled: true,
-                                hintText: 'Введите пароль',
-                                hintStyle: TextStyle(
-                                    color: Color.fromRGBO(186, 151, 161, 1)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none,
-                                )
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                          },
-                          child: Text(
-                            "СОЗДАТЬ КОМНАТУ",
-                            style: GoogleFonts.raleway(
-                              color: Colors.white,
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.all(12), // Здесь указывается отступ
-                            ),
-                            backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF7AA6FF)),
-                            elevation: MaterialStateProperty.all<double>(0),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+
+                //пароль
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20, top: 15, bottom: 10),
+                    // Значение отступа можно изменить под свои нужды
+                    child: Text(
+                      "Придумайте пароль",
+                      style: GoogleFonts.raleway(
+                        color: Color(0xFF873B31),
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFF8F6),
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(184, 9, 72, 0.15),
+                        blurRadius: 19,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: TextField(
+                    obscureText: true,
+                    obscuringCharacter: "*",
+                    style: TextStyle(
+                        color: Color.fromRGBO(186, 151, 161, 1)),
+                    decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.remove_red_eye),
+                        suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
+                        fillColor: Color.fromRGBO(255, 248, 246, 1),
+                        filled: true,
+                        hintText: 'Введите пароль',
+                        hintStyle: TextStyle(
+                            color: Color.fromRGBO(186, 151, 161, 1)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: BorderSide.none,
+                        )
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
+
+                //кнопка создать комнату
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "СОЗДАТЬ КОМНАТУ",
+                    style: GoogleFonts.raleway(
+                      color: Colors.white,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.all(12),
+                    ),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color(0xFF7AA6FF)),
+                    elevation: MaterialStateProperty.all<double>(0),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+
