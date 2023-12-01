@@ -12,6 +12,7 @@ class SignIn extends StatefulWidget{
 
 class _SignInState extends State<SignIn>
 {
+  bool _obsecureText = true;
   @override
   Widget build(BuildContext context) {
     // адаптивка
@@ -77,7 +78,7 @@ class _SignInState extends State<SignIn>
 
                       // второй текст
                       Container(
-                        margin: EdgeInsets.only(top: deviceHeight(context)*0.22),
+                        margin: EdgeInsets.only(top: deviceHeight(context)*0.23),
                         child: Text('Войдите в свой аккаунт, чтобы\nпользоваться приложением',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.raleway
@@ -111,7 +112,7 @@ class _SignInState extends State<SignIn>
                               ),
 
                               // поле для ввода логина
-                              TextField(
+                              TextFormField(
                                 style: TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
                                 decoration: InputDecoration(
@@ -125,6 +126,18 @@ class _SignInState extends State<SignIn>
                                       borderSide: BorderSide.none,
                                     )
                                 ),
+                              ),
+                              // подпись об ошибке
+                              Container(
+                                padding: EdgeInsets.only(top: 5, left: 10),
+                                alignment: Alignment.centerLeft,
+                                  child: Text('Неверный логин!',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.raleway
+                                      (fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color.fromRGBO(172, 31, 31, 1)),
+                                  ),
                               ),
 
                               // отступ
@@ -146,13 +159,21 @@ class _SignInState extends State<SignIn>
                               ),
 
                               // поле для ввода пароля
-                              TextField(
-                                obscureText: true,
-                                obscuringCharacter: "*",
+                              TextFormField(
+                                obscureText: _obsecureText,
+                                //obscuringCharacter: "*",
                                 style: const TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
                                 decoration: InputDecoration(
-                                    suffixIcon: Icon(Icons.remove_red_eye),
+                                    suffixIcon: IconButton(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onPressed: (){
+                                        setState(() {
+                                          _obsecureText =! _obsecureText;
+                                        });
+                                      }, icon: Icon(_obsecureText? Icons.visibility: Icons.visibility_off),
+                                    ),
                                     suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
                                     fillColor: Color.fromRGBO(255, 248, 246, 1),
                                     filled: true,
@@ -166,17 +187,35 @@ class _SignInState extends State<SignIn>
                                 ),
                               ),
 
-                              // кнопка под паролем
-                              Container(
-                                alignment: Alignment.centerRight,
-                                child:  TextButton(
-                                  child: Text('Забыли пароль?'),
-                                  style: TextButton.styleFrom(
-                                      foregroundColor: mainTextColor
+
+                              // кнопка под паролем и подпись
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text('Неверный пароль!',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.raleway
+                                        (fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: Color.fromRGBO(172, 31, 31, 1)),
+                                    ),
                                   ),
-                                  onPressed: () {},
-                                ),
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    child:  TextButton(
+                                      child: Text('Забыли пароль?'),
+                                      style: TextButton.styleFrom(
+                                          foregroundColor: mainTextColor
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                ],
                               ),
+
 
                               // кнопка входа
                               Container(
@@ -226,7 +265,9 @@ class _SignInState extends State<SignIn>
                                       style: TextButton.styleFrom(
                                           foregroundColor: Color.fromRGBO(231, 104, 56, 1)
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).pushNamed('/sign_up');
+                                      },
                                       child: Text('Зарегистрируйтесь',
                                         style: GoogleFonts.raleway
                                           (fontWeight: FontWeight.w700,

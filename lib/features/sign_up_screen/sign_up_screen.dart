@@ -12,194 +12,281 @@ class SignUp extends StatefulWidget{
 
 class _SignUpState extends State<SignUp>
 {
+  // переменные для пароля
+  bool _obsecureText = true;
+  bool _obsecureText_2 = true;
   @override
   Widget build(BuildContext context) {
+    double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+    double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/svg/Group 38_1.png')
-          )
-      ),
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.transparent,
-          body: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xFFF5F0E1),
+        body: SingleChildScrollView(
+            //padding: EdgeInsets.only(bottom: 5),
+            physics: BouncingScrollPhysics(),
+            child:
               Column(
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    margin: const EdgeInsets.only(top: 60),
-                    child: SvgPicture.asset('assets/svg/app_logo.svg'),
-                  ),
+                children: <Widget>[
+                  Stack(
+                    alignment: AlignmentDirectional.topCenter,
+                    children: [
+                      //звезда на фоне слева
+                      Transform.translate(
+                        offset: Offset(-160, 220),
+                        child: RotationTransition(
+                          turns: AlwaysStoppedAnimation(30 / 360),
+                          child: Opacity(
+                            opacity: 0.5,
+                            child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+                          ),
+                        ),
+                      ),
 
-                  Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: EdgeInsets.all(1),
-                        child: Text('Регистрация',
+                      // звезда снизу
+                      Transform.translate(
+                        offset: Offset(170, 550),
+                        child: ScaleTransition(
+                          scale: AlwaysStoppedAnimation(0.8),
+                          child: Opacity(
+                            opacity: 0.5,
+                            child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+                          ),
+                        ),
+                      ),
+
+                      // логотип
+                      Container(
+                        alignment: Alignment.topCenter,
+                        width: 100,
+                        height: 100,
+                        margin: EdgeInsets.only(top: deviceHeight(context)*0.07),
+                        child: SvgPicture.asset('assets/svg/app_logo.svg'),
+                      ),
+
+                      // первый текст
+                      Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: deviceHeight(context)*0.18),
+                            child: Text('Регистрация',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.raleway
+                                (fontWeight: FontWeight.w700,
+                                  fontSize: 32,
+                                  color: mainTextColor),
+                            ),
+                          )
+                      ),
+
+                      // второй текст
+                      Container(
+                        margin: EdgeInsets.only(top: deviceHeight(context)*0.23),
+                        child: Text('Для пользования приложением\nтребуется наличие аккаунта',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.raleway
-                            (fontWeight: FontWeight.w700,
-                              fontSize: 32,
+                            (fontWeight: FontWeight.w500,
+                              fontSize: 16,
                               color: mainTextColor),
                         ),
-                      )
-                  ),
+                      ),
 
-                  Container(
-                    padding: const EdgeInsets.only(top: 5, left: 5, right: 5),
-                    child: Text('Для пользования приложением требуется\nналичие аккаунта',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.raleway
-                        (fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: mainTextColor),
-                    ),
-                  ),
-
-
-                  Container(
-                      width: MediaQuery.of(context).size.width*0.85,
-
-                      padding: EdgeInsets.only(top: 15),
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.all(10),
-                            child: Text('Логин',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.raleway
-                                (fontWeight: FontWeight.w700,
-                                  fontSize: 23,
-                                  color: mainTextColor),
-                            ),
-                          ),
-                          TextField(
-                            style: const TextStyle(
-                                color: Color.fromRGBO(186, 151, 161, 1)),
-                            decoration: InputDecoration(
-                                fillColor: Color.fromRGBO(255, 248, 246, 1),
-                                filled: true,
-                                hintText: 'Введите логин',
-                                hintStyle: const TextStyle(
-                                    color: Color.fromRGBO(186, 151, 161, 1)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none,
-                                )
-                            ),
-                          ),
-                          const SizedBox(
-                            height:20,
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.all(10),
-                            // margin: EdgeInsets.only(right: 240),
-                            child: Text('Пароль',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.raleway
-                                (fontWeight: FontWeight.w700,
-                                  fontSize: 23,
-                                  color: mainTextColor),
-                            ),
-                          ),
-                          TextField(
-                            obscureText: true,
-                            obscuringCharacter: "*",
-                            style: const TextStyle(
-                                color: Color.fromRGBO(186, 151, 161, 1)),
-                            decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.remove_red_eye),
-                                suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
-                                fillColor: Color.fromRGBO(255, 248, 246, 1),
-                                filled: true,
-                                hintText: 'Введите пароль',
-                                hintStyle: const TextStyle(
-                                    color: Color.fromRGBO(186, 151, 161, 1)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide: BorderSide.none,
-                                )
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.all(10),
-                            // margin: EdgeInsets.only(right: 70),
-                            child: Text('Подтвердите пароль',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.raleway
-                                (fontWeight: FontWeight.w700,
-                                  fontSize: 23,
-                                  color: mainTextColor),
-                            ),
-                          ),
-                          Container(
-                            child: TextField(
-                              obscureText: true,
-                              obscuringCharacter: "*",
-                              style: const TextStyle(
-                                  color: Color.fromRGBO(186, 151, 161, 1)),
-                              decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.remove_red_eye),
-                                  suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
-                                  fillColor: Color.fromRGBO(255, 248, 246, 1),
-                                  filled: true,
-                                  hintText: 'Введите пароль еще раз',
-                                  hintStyle: const TextStyle(
-                                      color: Color.fromRGBO(186, 151, 161, 1)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                    borderSide: BorderSide.none,
-                                  )
-                              ),
-                            ),
-                          ),
-
-                          Container(
-                              height: MediaQuery.of(context).size.height*0.15,
-                              alignment: Alignment.bottomCenter,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
-                                  elevation: 10,
-                                  backgroundColor: Color.fromRGBO(231, 104, 56, 1),
-                                  minimumSize: Size(350, 55),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
+                      // колонка полей
+                      Container(
+                          padding: EdgeInsets.only(
+                              top: deviceHeight(context)*0.3,
+                              left:deviceWidth(context)*0.07,
+                              right: deviceWidth(context)*0.07),
+                          child: Column(
+                            children: [
+                              // логин
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.all(10),
+                                child: Text('Логин',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway
+                                    (fontWeight: FontWeight.w700,
+                                      fontSize: 23,
+                                      color: mainTextColor),
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/main');
-                                },
-                                child: Text('Создать аккаунт',
+                              ),
+                              // поле для ввода логина
+                              TextFormField(
+                                style: const TextStyle(
+                                    color: Color.fromRGBO(186, 151, 161, 1)),
+                                decoration: InputDecoration(
+                                    fillColor: Color.fromRGBO(255, 248, 246, 1),
+                                    filled: true,
+                                    hintText: 'Введите логин',
+                                    hintStyle: const TextStyle(
+                                        color: Color.fromRGBO(186, 151, 161, 1)),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                      borderSide: BorderSide.none,
+                                    )
+                                ),
+                              ),
+                              // подпись об ошибке
+                              Container(
+                                padding: EdgeInsets.only(top: 5, left: 10),
+                                alignment: Alignment.centerLeft,
+                                child: Text('Такой логин уже занят!',
+                                  textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway
                                     (fontWeight: FontWeight.w500,
-                                      fontSize: 20,
-                                      color: Colors.white),
+                                      fontSize: 16,
+                                      color: Color.fromRGBO(172, 31, 31, 1)),
                                 ),
-                              )
-                          ),
+                              ),
+                              //отступ
+                              const SizedBox(
+                                height:15,
+                              ),
+                              // пароль
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.all(10),
+                                // margin: EdgeInsets.only(right: 240),
+                                child: Text('Пароль',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway
+                                    (fontWeight: FontWeight.w700,
+                                      fontSize: 23,
+                                      color: mainTextColor),
+                                ),
+                              ),
+                              // поле для ввода пароля
+                              TextFormField(
+                                obscureText: _obsecureText,
+                                //obscuringCharacter: "*",
+                                style: const TextStyle(
+                                    color: Color.fromRGBO(186, 151, 161, 1)),
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onPressed: (){
+                                        setState(() {
+                                          _obsecureText =! _obsecureText;
+                                        });
+                                      }, icon: Icon(_obsecureText? Icons.visibility: Icons.visibility_off),
+                                    ),
+                                    suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
+                                    fillColor: Color.fromRGBO(255, 248, 246, 1),
+                                    filled: true,
+                                    hintText: 'Введите пароль',
+                                    hintStyle: const TextStyle(
+                                        color: Color.fromRGBO(186, 151, 161, 1)),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                      borderSide: BorderSide.none,
+                                    )
+                                ),
+                              ),
+                              //отступ
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              // подтверждение пароля
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.all(10),
+                                // margin: EdgeInsets.only(right: 70),
+                                child: Text('Подтвердите пароль',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway
+                                    (fontWeight: FontWeight.w700,
+                                      fontSize: 23,
+                                      color: mainTextColor),
+                                ),
+                              ),
+                              // поле для ввода пароля
+                              Container(
+                                child: TextFormField(
+                                  obscureText: _obsecureText_2,
+                                  //obscuringCharacter: "*",
+                                  style: const TextStyle(
+                                      color: Color.fromRGBO(186, 151, 161, 1)),
+                                  decoration: InputDecoration(
+                                      suffixIcon: IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onPressed: (){
+                                          setState(() {
+                                            _obsecureText_2 =! _obsecureText_2;
+                                          });
+                                        }, icon: Icon(_obsecureText_2? Icons.visibility: Icons.visibility_off),
+                                      ),
+                                      suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
+                                      fillColor: Color.fromRGBO(255, 248, 246, 1),
+                                      filled: true,
+                                      hintText: 'Введите пароль еще раз',
+                                      hintStyle: const TextStyle(
+                                          color: Color.fromRGBO(186, 151, 161, 1)),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                        borderSide: BorderSide.none,
+                                      )
+                                  ),
+                                ),
+                              ),
+                              // подпись об ошибке
+                              Container(
+                                padding: EdgeInsets.only(top: 5, left: 10),
+                                alignment: Alignment.centerLeft,
+                                child: Text('Пароли не совпадают!',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.raleway
+                                    (fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color.fromRGBO(172, 31, 31, 1)),
+                                ),
+                              ),
+                              // кнопка создать аккаунт
+                              Container(
+                                  margin: EdgeInsets.only(top: deviceHeight(context)*0.08),
+                                  alignment: Alignment.bottomCenter,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
+                                      elevation: 10,
+                                      backgroundColor: Color.fromRGBO(231, 104, 56, 1),
+                                      minimumSize: Size(350, 55),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed('/main');
+                                    },
+                                    child: Text('Создать аккаунт',
+                                      style: GoogleFonts.raleway
+                                        (fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: Colors.white),
+                                    ),
+                                  )
+                              ),
 
 
-                        ],
-                      )
+                            ],
+                          )
+                      ),
+                    ],
                   ),
 
+
+
+
                 ],
-              )
-            ],
-          )
+              ),
+        ),
       ),
     );
+
   }
 }
