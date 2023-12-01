@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:swipe_film/features/sign_in_screen/sign_in.dart';
+
+import '../../mysql.dart';
 
 class SignIn extends StatefulWidget{
   const SignIn({Key? key}) : super(key: key);
@@ -14,10 +17,15 @@ class _SignInState extends State<SignIn>
 {
   bool _obsecureText = true;
   @override
+  TextEditingController login = TextEditingController();
+  TextEditingController password = TextEditingController();
+  String error = "";
+
   Widget build(BuildContext context) {
     // адаптивка
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
+
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
     return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -113,6 +121,7 @@ class _SignInState extends State<SignIn>
 
                               // поле для ввода логина
                               TextFormField(
+                                controller: login,
                                 style: TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
                                 decoration: InputDecoration(
@@ -131,7 +140,7 @@ class _SignInState extends State<SignIn>
                               Container(
                                 padding: EdgeInsets.only(top: 5, left: 10),
                                 alignment: Alignment.centerLeft,
-                                  child: Text('Неверный логин!',
+                                  child: Text(error,
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.raleway
                                       (fontWeight: FontWeight.w500,
@@ -160,6 +169,7 @@ class _SignInState extends State<SignIn>
 
                               // поле для ввода пароля
                               TextFormField(
+                                controller: password,
                                 obscureText: _obsecureText,
                                 //obscuringCharacter: "*",
                                 style: const TextStyle(
@@ -193,17 +203,6 @@ class _SignInState extends State<SignIn>
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('Неверный пароль!',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.raleway
-                                        (fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: Color.fromRGBO(172, 31, 31, 1)),
-                                    ),
-                                  ),
-                                  Container(
                                     alignment: Alignment.centerRight,
                                     child:  TextButton(
                                       child: Text('Забыли пароль?'),
@@ -230,8 +229,20 @@ class _SignInState extends State<SignIn>
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed('/main');
+                                    // ВХОД
+                                    onPressed: () async {
+                                      var conn = await mysql().connect();
+                                      String result = await sign_in().sign_in_check(login.text, password.text, conn);
+                                      if (result == "")
+                                      {
+                                        Navigator.of(context).pushNamed('/main');
+                                      }
+                                      else
+                                      {
+                                        error = await sign_in().sign_in_check(login.text, password.text, conn);
+                                      }
+                                      await Future.delayed(Duration(microseconds: 100000));
+                                      conn.close();
                                     },
                                     child: Text('Войти',
                                       style: GoogleFonts.raleway
