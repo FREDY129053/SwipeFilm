@@ -12,8 +12,13 @@ class EnterRoom extends StatefulWidget {
 
 class _EnterRoomState extends State<EnterRoom>
 {
+  bool _obsecureText = true;
+  bool _obsecureText_2 = true;
+
   @override
   Widget build(BuildContext context) {
+    double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+    double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -25,8 +30,9 @@ class _EnterRoomState extends State<EnterRoom>
                 children: [
                   // Звезда сверху
                   Transform.translate(
-                    offset: Offset(0, -220),
-                    child: Container(
+                    offset: Offset(deviceWidth(context)*0.03, deviceHeight(context)*-0.29),
+                    child: Transform.scale(
+                      scale: 1.2,
                       child: SvgPicture.asset('assets/svg/mainmenu_star1.svg'),
                     ),
                   ),
@@ -76,10 +82,20 @@ class _EnterRoomState extends State<EnterRoom>
                             borderRadius: BorderRadius.circular(25),
                             // поле для заполнения
                             child: TextField(
+                              obscureText: _obsecureText,
+
                               style: const TextStyle(
                                   color: Color.fromRGBO(186, 151, 161, 1)),
                               decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.remove_red_eye),
+                                  suffixIcon: IconButton(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onPressed: (){
+                                      setState(() {
+                                        _obsecureText =! _obsecureText;
+                                      });
+                                    }, icon: Icon(_obsecureText? Icons.visibility: Icons.visibility_off),
+                                  ),
                                   suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
                                   fillColor: Color.fromRGBO(255, 248, 246, 1),
                                   filled: true,
@@ -121,12 +137,20 @@ class _EnterRoomState extends State<EnterRoom>
                             // поле ввода
                             child: TextField(
                               // параметр для того чтобы буквы стали звездами
-                              obscureText: true,
-                              obscuringCharacter: "*",
+                              obscureText: _obsecureText_2,
+
                               style: const TextStyle(
                                   color: Color.fromRGBO(186, 151, 161, 1)),
                               decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.remove_red_eye),
+                                  suffixIcon: IconButton(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onPressed: (){
+                                      setState(() {
+                                        _obsecureText_2 =! _obsecureText_2;
+                                      });
+                                    }, icon: Icon(_obsecureText_2? Icons.visibility: Icons.visibility_off),
+                                  ),
                                   suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
                                   fillColor: Color.fromRGBO(255, 248, 246, 1),
                                   filled: true,
@@ -155,7 +179,7 @@ class _EnterRoomState extends State<EnterRoom>
                                   ),
                                 ),
                                 onPressed: () {
-                                  Navigator.of(context).pushNamed('/main');
+                                  Navigator.of(context).pushNamed('/choose_genre');
                                 },
                                 child: Text('ВЛЕТЕТЬ!',
                                   style: GoogleFonts.raleway

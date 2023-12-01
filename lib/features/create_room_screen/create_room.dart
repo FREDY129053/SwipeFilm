@@ -11,7 +11,7 @@ class CreateRoom extends StatefulWidget {
 
 class _MainMenuState extends State<CreateRoom> {
 
-  bool _obscureText = true;
+  bool _obsecureText = true;
   final passwordController = TextEditingController();
 
 
@@ -233,12 +233,20 @@ class _MainMenuState extends State<CreateRoom> {
                     ],
                   ),
                   child: TextField(
-                    obscureText: true,
-                    obscuringCharacter: "*",
-                    style: TextStyle(
+                    obscureText: _obsecureText,
+
+                    style: const TextStyle(
                         color: Color.fromRGBO(186, 151, 161, 1)),
                     decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.remove_red_eye),
+                        suffixIcon: IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: (){
+                            setState(() {
+                              _obsecureText =! _obsecureText;
+                            });
+                          }, icon: Icon(_obsecureText? Icons.visibility: Icons.visibility_off),
+                        ),
                         suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
                         fillColor: Color.fromRGBO(255, 248, 246, 1),
                         filled: true,
