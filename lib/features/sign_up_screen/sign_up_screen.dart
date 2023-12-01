@@ -23,11 +23,11 @@ class _SignUpState extends State<SignUp>
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Color(0xFFF5F0E1),
         body: SingleChildScrollView(
+            reverse: true,
             //padding: EdgeInsets.only(bottom: 5),
-            physics: BouncingScrollPhysics(),
             child:
               Column(
                 children: <Widget>[

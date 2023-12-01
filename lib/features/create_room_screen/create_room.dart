@@ -264,7 +264,9 @@ class _MainMenuState extends State<CreateRoom> {
 
                 //кнопка создать комнату
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/choose_genre');
+                  },
                   child: Text(
                     "СОЗДАТЬ КОМНАТУ",
                     style: GoogleFonts.raleway(
