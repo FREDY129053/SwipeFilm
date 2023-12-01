@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:swipe_film/features/sign_up_screen/sign_up.dart';
+
+import '../../mysql.dart';
 
 class SignUp extends StatefulWidget{
   const SignUp({Key? key}) : super(key: key);
@@ -16,6 +19,11 @@ class _SignUpState extends State<SignUp>
   bool _obsecureText = true;
   bool _obsecureText_2 = true;
   @override
+  TextEditingController login = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController passwordRepeat = TextEditingController();
+  String error = "";
+
   Widget build(BuildContext context) {
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
@@ -116,6 +124,7 @@ class _SignUpState extends State<SignUp>
                               ),
                               // поле для ввода логина
                               TextFormField(
+                                controller: login,
                                 style: const TextStyle(
                                     color: Color.fromRGBO(186, 151, 161, 1)),
                                 decoration: InputDecoration(
@@ -134,7 +143,7 @@ class _SignUpState extends State<SignUp>
                               Container(
                                 padding: EdgeInsets.only(top: 5, left: 10),
                                 alignment: Alignment.centerLeft,
-                                child: Text('Такой логин уже занят!',
+                                child: Text(error,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.raleway
                                     (fontWeight: FontWeight.w500,
@@ -161,6 +170,7 @@ class _SignUpState extends State<SignUp>
                               ),
                               // поле для ввода пароля
                               TextFormField(
+                                controller: password,
                                 obscureText: _obsecureText,
                                 //obscuringCharacter: "*",
                                 style: const TextStyle(
@@ -207,6 +217,7 @@ class _SignUpState extends State<SignUp>
                               // поле для ввода пароля
                               Container(
                                 child: TextFormField(
+                                  controller: passwordRepeat,
                                   obscureText: _obsecureText_2,
                                   //obscuringCharacter: "*",
                                   style: const TextStyle(
@@ -234,18 +245,6 @@ class _SignUpState extends State<SignUp>
                                   ),
                                 ),
                               ),
-                              // подпись об ошибке
-                              Container(
-                                padding: EdgeInsets.only(top: 5, left: 10),
-                                alignment: Alignment.centerLeft,
-                                child: Text('Пароли не совпадают!',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.raleway
-                                    (fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color.fromRGBO(172, 31, 31, 1)),
-                                ),
-                              ),
                               // кнопка создать аккаунт
                               Container(
                                   margin: EdgeInsets.only(top: deviceHeight(context)*0.08),
@@ -260,8 +259,21 @@ class _SignUpState extends State<SignUp>
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                     ),
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed('/main');
+                                    // РЕГА
+                                    onPressed: () async {
+                                      var conn = await mysql().connect();
+                                      String result = await sign_up().sign_up_check(login.text, password.text, passwordRepeat.text, conn);
+                                      if (result == "")
+                                      {
+                                        await sign_up().user_commit(login.text, password.text, conn);
+                                        Navigator.of(context).pushNamed('/main');
+                                      }
+                                      else
+                                      {
+                                        error = await sign_up().sign_up_check(login.text, password.text, passwordRepeat.text, conn);
+                                      }
+                                      await Future.delayed(Duration(microseconds: 100000));
+                                      conn.close();
                                     },
                                     child: Text('Создать аккаунт',
                                       style: GoogleFonts.raleway
