@@ -85,78 +85,78 @@ class _ChooseGenreState extends State<ChooseGenre>
                 ),
               ),
 
-                //контейнер с жанрами
-                Container(
-                  width: deviceWidth(context)*0.9,
-                  height: deviceHeight(context)*0.35,
-                  // padding: EdgeInsets.all(1),
-                  margin: EdgeInsets.only(top: deviceHeight(context)*0.33),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(184, 9, 72, 0.1),
-                          spreadRadius: 0.5,
-                          blurRadius: 10,
-                          offset: Offset(0, 3),
-                        ),
-                      ]
-                  ),
-                  // лист жанров
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.all(3),
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text('Минимум жанров: 5',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.raleway(
-                            color: Color(0xFF873B31),
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w700,),
-                        ),
+              //контейнер с жанрами
+              Container(
+                width: deviceWidth(context)*0.9,
+                height: deviceHeight(context)*0.35,
+                // padding: EdgeInsets.all(1),
+                margin: EdgeInsets.only(top: deviceHeight(context)*0.33),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(184, 9, 72, 0.1),
+                        spreadRadius: 0.5,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        // две колонки из жанров
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              genreButton('биография', 0),
-                              genreButton('боевик', 1),
-                              genreButton('вестерн', 2),
-                              genreButton('военный', 3),
-                              genreButton('детектив', 4),
-                              genreButton('драма', 5),
-                              genreButton('история', 6),
-                              genreButton('комедия', 7),
-                              genreButton('криминал', 8),
-                              genreButton('мелодрама', 9)
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              genreButton('музыка', 10),
-                              genreButton('мюзикл', 11),
-                              genreButton('приключения', 12),
-                              genreButton('семейный', 13),
-                              genreButton('спорт', 14),
-                              genreButton('триллер', 15),
-                              genreButton('ужасы', 16),
-                              genreButton('фантастика', 17),
-                              genreButton('фильм-нуар', 18),
-                              genreButton('фэнтези', 19),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ]
                 ),
+                // лист жанров
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.all(3),
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Text('Минимум жанров: 5',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.raleway(
+                          color: Color(0xFF873B31),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700,),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      // две колонки из жанров
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            genreButton('биография', 0),
+                            genreButton('боевик', 1),
+                            genreButton('вестерн', 2),
+                            genreButton('военный', 3),
+                            genreButton('детектив', 4),
+                            genreButton('драма', 5),
+                            genreButton('история', 6),
+                            genreButton('комедия', 7),
+                            genreButton('криминал', 8),
+                            genreButton('мелодрама', 9)
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            genreButton('музыка', 10),
+                            genreButton('мюзикл', 11),
+                            genreButton('приключения', 12),
+                            genreButton('семейный', 13),
+                            genreButton('спорт', 14),
+                            genreButton('триллер', 15),
+                            genreButton('ужасы', 16),
+                            genreButton('фантастика', 17),
+                            genreButton('фильм-нуар', 18),
+                            genreButton('фэнтези', 19),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
 
               //подпись при ошибке
               Container(
