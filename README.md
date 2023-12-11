@@ -192,7 +192,7 @@
 <hr>
 <br>
 <h2>База данных:</h2>
-<p align="center">Схема БД доступна по ссылке - <a href="https://dbdesigner.page.link/d8SGFheS4eh81zUt8">Схема БД</a></p>
+<p align="center">Схема БД доступна по ссылке - <a href="[https://dbdesigner.page.link/d8SGFheS4eh81zUt8](https://dbdesigner.page.link/cNsZn9n73d2MXaPa7)">Схема БД</a></p>
 <details>
     <summary>Что нужно сделать</summary>
     <br>
