@@ -5,6 +5,8 @@ import "package:swipe_film/features/first_screen/first_screen.dart";
 import "package:swipe_film/features/main_menu_screen/main_menu.dart";
 import "package:swipe_film/features/sign_in_screen/sign_in_screen.dart";
 import "package:swipe_film/features/sign_up_screen/sign_up_screen.dart";
+import "package:swipe_film/features/film_card/film_card.dart";
+import "package:swipe_film/features/anime_card/anime_card.dart";
 
 
 
@@ -16,4 +18,6 @@ final routes = {
   '/create_room': (context) => const CreateRoom(),
   '/enter_room': (context) => const EnterRoom(),
   '/choose_genre': (context) => const ChooseGenre(),
+  '/film_card': (context) => const FilmCard(),
+  '/anime_card': (context) => const AnimeCard(),
 };

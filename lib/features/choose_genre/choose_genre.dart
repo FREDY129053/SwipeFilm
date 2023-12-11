@@ -224,7 +224,7 @@ class _ChooseGenreState extends State<ChooseGenre>
                       ),
                     ),
                     onPressed: () {
-                      //Navigator.of(context).pushNamed('/choose_genre');
+                      Navigator.of(context).pushNamed('/anime_card');
                     },
                     child: Text('ПРИНЯТЬ',
                       style: GoogleFonts.raleway
