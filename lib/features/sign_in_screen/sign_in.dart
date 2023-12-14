@@ -4,7 +4,7 @@ class sign_in
 {
   Future<String> sign_in_check(String login, String password, MySqlConnection conn) async
   {
-    await Future.delayed(Duration(microseconds: 10000));
+    await Future.delayed(Duration(microseconds: 1000000));
     var log = await conn.query('SELECT login FROM users WHERE login = ?', [login]);
     if (log.toString() != "()")
     {

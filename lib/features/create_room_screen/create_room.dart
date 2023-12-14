@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:swipe_film/features/create_room_screen/CreateRoom.dart';
+import 'package:swipe_film/mysql.dart';
 
 class CreateRoom extends StatefulWidget {
   const CreateRoom({Key? key}) : super(key: key);
@@ -8,12 +10,12 @@ class CreateRoom extends StatefulWidget {
   _MainMenuState createState() => _MainMenuState();
 }
 
-
 class _MainMenuState extends State<CreateRoom> {
 
   bool _obsecureText = true;
-  final passwordController = TextEditingController();
-
+  String numberOfPeople = "";
+  int roomType = 0;
+  TextEditingController password = TextEditingController();
 
   int _peopleValue = 0;
   int _genreValue = 0; //id 0 - фильм, 1 - сериал, 2 - аниме программисты если что меняйте под себя
@@ -24,6 +26,7 @@ class _MainMenuState extends State<CreateRoom> {
   Widget peopleNumberButton(String text, int index) {
     return ElevatedButton(
       onPressed: () {
+        numberOfPeople = text;
         setState(() {
           _peopleValue = index;
         });
@@ -53,6 +56,7 @@ class _MainMenuState extends State<CreateRoom> {
   Widget genreButton(String text, int index) {
     return ElevatedButton(
       onPressed: () {
+        roomType = index;
         setState(() {
           _genreValue = index;
         });
@@ -234,7 +238,7 @@ class _MainMenuState extends State<CreateRoom> {
                   ),
                   child: TextField(
                     obscureText: _obsecureText,
-
+                    controller: password,
                     style: const TextStyle(
                         color: Color.fromRGBO(186, 151, 161, 1)),
                     decoration: InputDecoration(
@@ -264,7 +268,12 @@ class _MainMenuState extends State<CreateRoom> {
 
                 //кнопка создать комнату
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    var conn = await mysql().connect();
+                    await create_room().RoomCommit(int.parse(numberOfPeople), roomType, password.text, conn);
+                    await Future.delayed(Duration(microseconds: 100000));
+                    conn.close();
+                  },
                   child: Text(
                     "СОЗДАТЬ КОМНАТУ",
                     style: GoogleFonts.raleway(

@@ -235,7 +235,7 @@ class _SignInState extends State<SignIn>
                                 }
                                 else
                                 {
-                                  error = await sign_in().sign_in_check(login.text, password.text, conn);
+                                  error = result;
                                 }
                                 await Future.delayed(Duration(microseconds: 100000));
                                 conn.close();

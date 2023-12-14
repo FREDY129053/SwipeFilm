@@ -8,13 +8,13 @@ class sign_up
 {
   Future<void> user_commit(String login, String password, MySqlConnection conn)
   async {
-    await Future.delayed(Duration(microseconds: 10000));
+    await Future.delayed(Duration(microseconds: 1000000));
     conn.query('INSERT users (login, password) VALUES (?, ?);', [login, password]);
   }
 
   Future<String> login_check(String login, MySqlConnection conn)
   async {
-    await Future.delayed(Duration(microseconds: 10000));
+    await Future.delayed(Duration(microseconds: 1000000));
     var results = await conn.query('SELECT login FROM users WHERE login = ?', [login]);
     return results.toString();
   }

@@ -274,7 +274,7 @@ class _SignUpState extends State<SignUp>
                                   {
                                     error = await sign_up().sign_up_check(login.text, password.text, passwordRepeat.text, conn);
                                   }
-                                  await Future.delayed(Duration(microseconds: 100000));
+                                  await Future.delayed(Duration(microseconds: 1000000));
                                   conn.close();
                                 },
                                 child: Text('Создать аккаунт',
