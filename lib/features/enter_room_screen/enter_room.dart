@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
+import 'package:swipe_film/mysql.dart';
 
 
 class EnterRoom extends StatefulWidget {
@@ -12,6 +14,10 @@ class EnterRoom extends StatefulWidget {
 
 class _EnterRoomState extends State<EnterRoom>
 {
+  TextEditingController id = TextEditingController();
+  TextEditingController password = TextEditingController();
+  String error = "";
+
   bool _obsecureText = true;
   bool _obsecureText_2 = true;
 
@@ -82,6 +88,7 @@ class _EnterRoomState extends State<EnterRoom>
                             borderRadius: BorderRadius.circular(25),
                             // поле для заполнения
                             child: TextField(
+                              controller: id,
                               obscureText: _obsecureText,
 
                               style: const TextStyle(
@@ -137,6 +144,7 @@ class _EnterRoomState extends State<EnterRoom>
                             // поле ввода
                             child: TextField(
                               // параметр для того чтобы буквы стали звездами
+                              controller: password,
                               obscureText: _obsecureText_2,
 
                               style: const TextStyle(
@@ -178,8 +186,20 @@ class _EnterRoomState extends State<EnterRoom>
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                 ),
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/choose_genre');
+                                onPressed: () async {
+                                  var conn = await mysql().connect();
+                                  String result = await enter_room().EnterRoom(id.text, password.text, conn);
+                                  if (result == "")
+                                    {
+                                      Navigator.of(context).pushNamed('/choose_genre');
+                                    }
+                                  else
+                                    {
+                                      error = result;
+                                      print(error);
+                                    }
+                                  await Future.delayed(Duration(microseconds: 1000000));
+                                  conn.close();
                                 },
                                 child: Text('ВЛЕТЕТЬ!',
                                   style: GoogleFonts.raleway

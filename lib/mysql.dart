@@ -1,14 +1,16 @@
 import 'package:mysql1/mysql1.dart';
+import 'package:swipe_film/config.dart';
+export 'config.dart';
 
 class mysql {
   Future<MySqlConnection> connect() async
   {
     var settings = new ConnectionSettings(
-        host: '10.0.2.2',
-        port: 3306,
-        user: 'root',
-        password: 'password',
-        db: 'logreg'
+        host: dbHost,
+        port: dbPort,
+        user: dbUser,
+        password: dbPassword,
+        db: dbName
     );
     await Future.delayed(Duration(microseconds: 10000));
     return await MySqlConnection.connect(settings);
