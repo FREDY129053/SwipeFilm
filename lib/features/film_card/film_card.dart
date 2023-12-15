@@ -2,15 +2,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:swipe_film/on_changes/card_provider.dart';
 
-class FilmCard extends StatefulWidget {
-  const FilmCard({Key? key}) : super(key: key);
+import 'film_card_class.dart';
+
+class FilmCards extends StatefulWidget {
+  const FilmCards({Key? key}) : super(key: key);
   @override
   _MainMenuState createState() => _MainMenuState();
 }
 
 
-class _MainMenuState extends State<FilmCard> {
+class _MainMenuState extends State<FilmCards> {
   @override
   Widget build(BuildContext context) {
 
@@ -26,141 +30,35 @@ class _MainMenuState extends State<FilmCard> {
         backgroundColor: Colors.transparent,
 
         //карточка
-        body: Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-            decoration: BoxDecoration(
-              color: Color(0xFFFFF8F6),
-              borderRadius: BorderRadius.circular(20.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromRGBO(184, 9, 72, 0.15),
-                  blurRadius: 19,
-                ),
-              ],
-            ),
-            width: MediaQuery.of(context).size.width * 0.95, //ширина карточки
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0.0),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0), //скругленные края
-                    child: Image.asset(
-                      'assets/images/homealone.png', //путь к картинке
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 10.0),
-
-                //название
-                Text(
-                  'Название фильма',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.raleway(
-                    color: Color(0xFF873A31),
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                //страна, год
-                Text(
-                  'Страна, год',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.raleway(
-                    color: Color(0xFF873B31),
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-
-                SizedBox(height: 20.0),
-
-                //описание
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 5.5),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFF8F6),
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: Color(0xFF873B31)),
-                  ),
-                  child: Text(
-                    'Мальчик-озорник задает жару грабителям. Лучшая комедия для создания праздничного настроения у всей семьи.',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.raleway(
-                      color: Color(0xFF873B31),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 20.0),
-
-                //список жанров
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 10.0,
-                  runSpacing: 8.0,
-                  children: [
-                    _buildGenreContainer('Приключения'),
-                    _buildGenreContainer('Экшен'),
-                    _buildGenreContainer('Фэнтези'),
-                    // добавляйте больше если нужно
-                  ],
-                ),
-
-
-                SizedBox(height: 20.0),
-
-
-
-                //количество минут
-                _buildMinuteContainer(128),
-
-                SizedBox(height: 20.0),
-
-
-
-                //SizedBox(height: 20.0),
-
-
-                // SizedBox(height: 20.0), // Adjust this spacing as needed
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //   children: [
-                //     IconButton(
-                //       onPressed: () {
-                //         // Action for the close button
-                //       },
-                //       icon: Icon(Icons.close, size: 40.0),
-                //       iconSize: 40.0,
-                //     ),
-                //     IconButton(
-                //       onPressed: () {
-                //         // Action for the like button
-                //       },
-                //       icon: Icon(Icons.favorite, size: 40.0),
-                //       iconSize: 40.0,
-                //       color: Colors.red,
-                //     ),
-                //   ],
-                // ),
-              ],
-            ),
-          ),
-        ),
-      ),
+        body: buildCards(),
+      )
     );
+  }
+
+  // TEST
+  Widget buildCards() {
+    final provider = Provider.of<CardProvider>(context);
+    Future.delayed(const Duration(microseconds: 1), () {});
+    final urlImages = provider.urlImages;
+
+    return urlImages.isEmpty
+      ? Center(
+          child: ElevatedButton(
+            onPressed: () {
+              final provider = Provider.of<CardProvider>(context, listen: false);
+              provider.test();
+            },
+            child: Text('Заново'),
+          ),
+        )
+
+      : Stack(
+          children: urlImages
+            .map((urlImageI) => FilmCard(
+            urlImage: urlImageI,
+            isFront: urlImages.last == urlImageI,
+          )).toList(),
+        );
   }
 
   //виджет для отображения жанров (принимает строку с названием жанра)
@@ -232,7 +130,5 @@ class _MainMenuState extends State<FilmCard> {
       ),
     );
   }
-
-
 
 }
