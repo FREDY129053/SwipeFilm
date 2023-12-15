@@ -268,12 +268,14 @@ class _MainMenuState extends State<CreateRoom> {
 
                 //кнопка создать комнату
                 ElevatedButton(
-                  onPressed: () async {
-                    var conn = await mysql().connect();
-                    await create_room().RoomCommit(int.parse(numberOfPeople), roomType, password.text, conn);
-                    await Future.delayed(Duration(microseconds: 100000));
-                    conn.close();
-                  },
+                  // БД ВЕРНУТЬ
+                  // onPressed: () async {
+                  //   var conn = await mysql().connect();
+                  //   await create_room().RoomCommit(int.parse(numberOfPeople), roomType, password.text, conn);
+                  //   await Future.delayed(Duration(microseconds: 100000));
+                  //   conn.close();
+                  // },
+                  onPressed: () {Navigator.pushNamed(context, '/anime_card');},
                   child: Text(
                     "СОЗДАТЬ КОМНАТУ",
                     style: GoogleFonts.raleway(

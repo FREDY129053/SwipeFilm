@@ -10,6 +10,7 @@ import "package:swipe_film/features/anime_card/anime_card.dart";
 
 
 
+
 final routes = {
   '/': (context) => const FirstScreen(),
   '/sign_in': (context) => const SignIn(),
@@ -18,6 +19,6 @@ final routes = {
   '/create_room': (context) => const CreateRoom(),
   '/enter_room': (context) => const EnterRoom(),
   '/choose_genre': (context) => const ChooseGenre(),
-  '/film_card': (context) => const FilmCard(),
+  '/film_card': (context) => const FilmCards(),
   '/anime_card': (context) => const AnimeCard(),
 };
