@@ -275,7 +275,7 @@ class _MainMenuState extends State<CreateRoom> {
                   //   await Future.delayed(Duration(microseconds: 100000));
                   //   conn.close();
                   // },
-                  onPressed: () {Navigator.pushNamed(context, '/anime_card');},
+                  onPressed: () {Navigator.pushNamed(context, '/waiting_room');},
                   child: Text(
                     "СОЗДАТЬ КОМНАТУ",
                     style: GoogleFonts.raleway(

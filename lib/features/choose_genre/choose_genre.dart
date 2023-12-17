@@ -106,7 +106,7 @@ class _ChooseGenreState extends State<ChooseGenre>
                 // лист жанров
                 child: ListView(
                   physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.all(3),
+                  padding: EdgeInsets.all(5),
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10),
