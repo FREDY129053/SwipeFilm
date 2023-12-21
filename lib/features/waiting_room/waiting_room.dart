@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/waiting_room/waiting_room.dart';
 import 'package:swipe_film/mysql.dart';
 
+import '../enter_room_screen/EnterRoom.dart';
+
 
 class WaitingRoom extends StatefulWidget {
   const WaitingRoom({Key? key}) : super(key: key);
@@ -123,19 +125,19 @@ class _WaitingRoomState extends State<WaitingRoom>
                               ),
                             ),
                             onPressed: () async {
-                              // var conn = await mysql().connect();
-                              // String result = await enter_room().EnterRoom(id.text, password.text, conn);
-                              // if (result == "")
+                              var conn = await mysql().connect();
+                              String result = await enter_room().EnterRoom(id.text, password.text, conn);
+                              if (result == "")
                               {
                                 Navigator.of(context).pushNamed('/animation_room');
                               }
-                              // else
-                              // {
-                              //   error = result;
-                              //   print(error);
-                              // }
-                              // await Future.delayed(Duration(microseconds: 1000000));
-                              // conn.close();
+                              else
+                              {
+                                error = result;
+                                print(error);
+                              }
+                              await Future.delayed(Duration(microseconds: 1000000));
+                              conn.close();
                             },
                             child: Text('ВЛЕТЕТЬ!',
                               style: GoogleFonts.raleway

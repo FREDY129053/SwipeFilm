@@ -227,18 +227,18 @@ class _SignInState extends State<SignIn>
                               ),
                               // ВХОД
                               onPressed: () async {
-                                var conn = await mysql().connect();
-                                String result = await sign_in().sign_in_check(login.text, password.text, conn);
-                                if (result == "")
-                                {
+                                // var conn = await mysql().connect();
+                                // String result = await sign_in().sign_in_check(login.text, password.text, conn);
+                                // if (result == "")
+                                // {
                                   Navigator.of(context).pushNamed('/main');
-                                }
-                                else
-                                {
-                                  error = result;
-                                }
-                                await Future.delayed(Duration(microseconds: 100000));
-                                conn.close();
+                                // }
+                                // else
+                                // {
+                                //   error = result;
+                                // }
+                                // await Future.delayed(Duration(microseconds: 100000));
+                                // conn.close();
                               },
                               child: Text('Войти',
                                 style: GoogleFonts.raleway
