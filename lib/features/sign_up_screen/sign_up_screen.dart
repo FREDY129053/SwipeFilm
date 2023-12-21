@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/sign_up_screen/sign_up.dart';
 
 import '../../mysql.dart';
+import '../sign_in_screen/sign_in.dart';
+import '../sign_in_screen/sign_in_screen.dart';
 
 class SignUp extends StatefulWidget{
   const SignUp({Key? key}) : super(key: key);
@@ -264,15 +266,16 @@ class _SignUpState extends State<SignUp>
                                 // РЕГА
                                 onPressed: () async {
                                   var conn = await mysql().connect();
-                                  String result = await sign_up().sign_up_check(login.text, password.text, passwordRepeat.text, conn);
+                                  String result = await DBSignUp().SignUpCheck(login.text, password.text, passwordRepeat.text, conn);
                                   if (result == "")
                                   {
-                                    await sign_up().user_commit(login.text, password.text, conn);
+                                    await DBSignUp().UserCommit(login.text, password.text, conn);
+                                    currUserId = await DBSignIn().GetUserId(login.text, conn);
                                     Navigator.of(context).pushNamed('/main');
                                   }
                                   else
                                   {
-                                    error = await sign_up().sign_up_check(login.text, password.text, passwordRepeat.text, conn);
+                                    error = await DBSignUp().SignUpCheck(login.text, password.text, passwordRepeat.text, conn);
                                   }
                                   await Future.delayed(Duration(microseconds: 1000000));
                                   conn.close();

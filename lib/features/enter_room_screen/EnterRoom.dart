@@ -1,6 +1,6 @@
 import 'package:mysql1/mysql1.dart';
 
-class enter_room
+class DBEnterRoom
 {
   Future<String> EnterRoom(String id, String password, MySqlConnection conn)
   async {

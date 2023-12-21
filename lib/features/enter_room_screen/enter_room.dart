@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
 import 'package:swipe_film/mysql.dart';
 
+import '../choose_genre/ChooseGenre.dart';
+
+List<Genre> genres = [];
 
 class EnterRoom extends StatefulWidget {
   const EnterRoom({Key? key}) : super(key: key);
@@ -191,9 +194,10 @@ class _EnterRoomState extends State<EnterRoom>
                                   ),
                                   onPressed: () async {
                                     var conn = await mysql().connect();
-                                    String result = await enter_room().EnterRoom(id.text, password.text, conn);
+                                    String result = await DBEnterRoom().EnterRoom(id.text, password.text, conn);
                                     if (result == "")
                                       {
+                                        genres = await DBChooseGenre().GetGenres(conn);
                                         Navigator.of(context).pushNamed('/choose_genre');
                                       }
                                     else

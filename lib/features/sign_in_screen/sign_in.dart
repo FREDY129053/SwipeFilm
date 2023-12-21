@@ -1,8 +1,8 @@
 import 'package:mysql1/mysql1.dart';
 
-class sign_in
+class DBSignIn
 {
-  Future<String> sign_in_check(String login, String password, MySqlConnection conn) async
+  Future<String> SignInCheck(String login, String password, MySqlConnection conn) async
   {
     await Future.delayed(Duration(microseconds: 1000000));
     var log = await conn.query('SELECT login FROM users WHERE login = ?', [login]);
@@ -22,5 +22,12 @@ class sign_in
     {
       return "Неправильный логин или пароль";
     }
+  }
+
+  Future<int> GetUserId(String login, MySqlConnection conn) async
+  {
+    await Future.delayed(Duration(microseconds: 1000000));
+    var id = await conn.query('SELECT id FROM users WHERE login = ?', [login]);
+    return int.parse(id.elementAt(0).toString().substring(13, id.elementAt(0).toString().length - 1));
   }
 }

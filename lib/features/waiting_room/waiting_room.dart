@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/waiting_room/waiting_room.dart';
 import 'package:swipe_film/mysql.dart';
 
-import '../enter_room_screen/EnterRoom.dart';
+import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
 
 
 class WaitingRoom extends StatefulWidget {
@@ -126,7 +126,7 @@ class _WaitingRoomState extends State<WaitingRoom>
                             ),
                             onPressed: () async {
                               var conn = await mysql().connect();
-                              String result = await enter_room().EnterRoom(id.text, password.text, conn);
+                              String result = await DBEnterRoom().EnterRoom(id.text, password.text, conn);
                               if (result == "")
                               {
                                 Navigator.of(context).pushNamed('/animation_room');

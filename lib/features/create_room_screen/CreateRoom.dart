@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:mysql1/mysql1.dart';
 
-class create_room
+class DBCreateRoom
 {
   Future<void> RoomCommit(int numberOfPeople, int roomType, String password, MySqlConnection conn)
   async {

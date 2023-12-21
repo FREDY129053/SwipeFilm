@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../mysql.dart';
+import '../enter_room_screen/enter_room.dart';
+import '../sign_in_screen/sign_in_screen.dart';
+import 'ChooseGenre.dart';
+
 
 class ChooseGenre extends StatefulWidget {
   const ChooseGenre({Key? key}) : super(key: key);
@@ -45,6 +50,16 @@ class _ChooseGenreState extends State<ChooseGenre>
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> buttonsList1 = [];
+    List<Widget> buttonsList2 = [];
+    for (int i = 0; i < genres.length ~/ 2; i++)
+      {
+        buttonsList1.add(genreButton(genres[i].name, genres[i].id));
+      }
+    for (int i = genres.length ~/ 2; i < genres.length; i++)
+      {
+        buttonsList2.add(genreButton(genres[i].name, genres[i].id));
+      }
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
@@ -124,33 +139,11 @@ class _ChooseGenreState extends State<ChooseGenre>
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            genreButton('биография', 0),
-                            genreButton('боевик', 1),
-                            genreButton('вестерн', 2),
-                            genreButton('военный', 3),
-                            genreButton('детектив', 4),
-                            genreButton('драма', 5),
-                            genreButton('история', 6),
-                            genreButton('комедия', 7),
-                            genreButton('криминал', 8),
-                            genreButton('мелодрама', 9)
-                          ],
+                          children: buttonsList1
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            genreButton('музыка', 10),
-                            genreButton('мюзикл', 11),
-                            genreButton('приключения', 12),
-                            genreButton('семейный', 13),
-                            genreButton('спорт', 14),
-                            genreButton('триллер', 15),
-                            genreButton('ужасы', 16),
-                            genreButton('фантастика', 17),
-                            genreButton('фильм-нуар', 18),
-                            genreButton('фэнтези', 19),
-                          ],
+                          children: buttonsList2
                         ),
                       ],
                     ),
@@ -223,8 +216,17 @@ class _ChooseGenreState extends State<ChooseGenre>
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/film_card');
+                    onPressed: () async {
+                      var conn = await mysql().connect();
+                      if (_selectedGenres.length > 4)
+                      {
+                        await DBChooseGenre().GenresCommit(_selectedGenres, currUserId, conn);
+                        Navigator.of(context).pushNamed('/film_card');
+                      }
+                      else
+                      {
+                        print("Выбрано меньше 5 жанров");
+                      }
                     },
                     child: Text('ПРИНЯТЬ',
                       style: GoogleFonts.raleway
