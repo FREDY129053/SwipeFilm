@@ -33,7 +33,7 @@ class _ChooseGenreState extends State<ChooseGenre>
     child: Text(text,
       style: GoogleFonts.raleway(
         color: isSelected ? Color(0xFF873B31) : Color(0xFF873B31),
-        fontSize: 20.0,
+        fontSize: 18.0,
         fontWeight: FontWeight.w600,),
     ),
     style: ElevatedButton.styleFrom(
