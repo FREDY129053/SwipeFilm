@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +15,9 @@ class _MainMenuState extends State<MainMenu>
 {
   @override
   Widget build(BuildContext context) {
+    // Запрет переворота экрана в горизонтальный режим
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     return Scaffold(
         backgroundColor: Color(0xFFF5F0E1),
         body: Column(
