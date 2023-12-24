@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,6 +28,9 @@ class _SignUpState extends State<SignUp>
   String error = "";
 
   Widget build(BuildContext context) {
+    // Запрет переворота экрана в горизонтальный режим
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
@@ -271,7 +275,10 @@ class _SignUpState extends State<SignUp>
                                   {
                                     await DBSignUp().UserCommit(login.text, password.text, conn);
                                     currUserId = await DBSignIn().GetUserId(login.text, conn);
-                                    Navigator.of(context).pushNamed('/main');
+                                    // Navigator.of(context).pushNamed('/main');
+                                    Future.delayed(Duration.zero, () {
+                                      Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+                                    });
                                   }
                                   else
                                   {

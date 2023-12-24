@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/create_room_screen/CreateRoom.dart';
@@ -86,6 +87,9 @@ class _MainMenuState extends State<CreateRoom> {
 
   @override
   Widget build(BuildContext context) {
+    // Запрет переворота экрана в горизонтальный режим
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

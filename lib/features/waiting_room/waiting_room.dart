@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/waiting_room/waiting_room.dart';
@@ -24,6 +25,9 @@ class _WaitingRoomState extends State<WaitingRoom>
 
   @override
   Widget build(BuildContext context) {
+    // Запрет переворота экрана в горизонтальный режим
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
