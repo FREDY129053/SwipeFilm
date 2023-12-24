@@ -16,11 +16,30 @@ dependencies:
   pin_input_text_field: ^4.5.1
   mysql1: ^0.20.0
   provider: ^6.0.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/svg/app_logo2.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/svg/app_logo2.png"
+    background_color: "#FFF8F6"
+    theme_color: "#873B31"
+  windows:
+    generate: true
+    image_path: "assets/svg/app_logo2.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/svg/app_logo2.png"
 
 flutter:
   uses-material-design: true

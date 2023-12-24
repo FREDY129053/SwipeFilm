@@ -11,6 +11,7 @@ class SwipeFilmApp extends StatelessWidget {
   Widget build(BuildContext context) => ChangeNotifierProvider(
     create: (context) => CardProvider(),
     child: MaterialApp(
+      title: 'Swipe Film',
       debugShowCheckedModeBanner: false,
       routes: routes,
     ),
