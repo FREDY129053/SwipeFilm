@@ -5,14 +5,14 @@ export 'config.dart';
 class mysql {
   Future<MySqlConnection> connect() async
   {
-    var settings = new ConnectionSettings(
+    var settings = ConnectionSettings(
         host: dbHost,
         port: dbPort,
         user: dbUser,
         password: dbPassword,
         db: dbName
     );
-    await Future.delayed(Duration(microseconds: 10000));
+    await Future.delayed(const Duration(microseconds: 10000));
     return await MySqlConnection.connect(settings);
   }
 }
