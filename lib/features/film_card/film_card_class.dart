@@ -26,7 +26,7 @@ class _FilmCardState extends State<FilmCard> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final size = MediaQuery.of(context).size;
 
       final provider = Provider.of<CardProvider>(context, listen: false);
@@ -88,12 +88,6 @@ class _FilmCardState extends State<FilmCard> {
       decoration: BoxDecoration(
         color: const Color(0xFFFFF8F6),
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromRGBO(184, 9, 72, 0.15),
-            blurRadius: 19,
-          ),
-        ],
       ),
       width: MediaQuery.of(context).size.width * 0.95, //ширина карточки
       child: Column(
@@ -108,10 +102,30 @@ class _FilmCardState extends State<FilmCard> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0), //скругленные края
-              child: Image.asset(
-                widget.urlImage, //путь к картинке (ИЗМЕНЯЕМОЕ)
+              child:
+              // Вывод картинки
+              Image.network(
+                widget.urlImage, // URL изображения (динамический)
                 fit: BoxFit.cover,
+                // Позволяет показывать загрузку
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  }
+                },
               ),
+              // Image.asset(
+              //   widget.urlImage, //путь к картинке (ИЗМЕНЯЕМОЕ)
+              //   fit: BoxFit.cover,
+              // ),
             ),
           ),
 
@@ -168,9 +182,9 @@ class _FilmCardState extends State<FilmCard> {
             spacing: 10.0,
             runSpacing: 8.0,
             children: [
-              _buildGenreContainer('Приключения'),
-              _buildGenreContainer('Экшен'),
-              _buildGenreContainer('Фэнтези'),
+              _buildGenreContainer('Мелодрама'),
+              _buildGenreContainer('История'),
+              _buildGenreContainer('Триллер'),
               // добавляйте больше если нужно
             ],
           ),
