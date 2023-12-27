@@ -31,7 +31,7 @@ class _MainMenuState extends State<FilmCards> {
 
         //карточка
         body: buildCards(),
-      )
+      ),
     );
   }
 
