@@ -176,7 +176,7 @@ class FilmsList {
                 '&selectFields=countries'
                 '&selectFields=shortDescription'
                 '&selectFields=movieLength'
-                '&selectFields=poster'
+                '&selectFields=backdrop'
                 '&selectFields=genres'
                 '&genres.name=%2B${tmp[i][0]}'
                 '&genres.name=%2B${tmp[i][1]}'
@@ -196,10 +196,11 @@ class FilmsList {
         // Формирование данных для класса FilmInfo
         for (var i in dataDocs) {
           int id = i['id'];
-          String name = i['name'];
+          String name = i['name'] ?? i['names'][0][0];
           String country = List<String>.from(
               i['countries'].map((genre) => genre['name'] as String))[0];
-          String poster = i['poster']['url'];
+          // String poster = i['poster']['url'];
+          String poster = i['backdrop']['url'];
           int year = i['year'];
           String desc = i['shortDescription'] ?? 'Нет описания';
           var genres = List<String>.from(
