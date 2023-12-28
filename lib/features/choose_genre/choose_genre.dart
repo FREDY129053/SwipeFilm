@@ -17,7 +17,7 @@ class ChooseGenre extends StatefulWidget {
 
 class _ChooseGenreState extends State<ChooseGenre>
 {
-
+  String error = "";
   //виджет для выбора жанров
   Set<int> _selectedGenres = Set<int>();
   Widget genreButton(String text, int index) {  bool isSelected = _selectedGenres.contains(index);
@@ -159,7 +159,7 @@ class _ChooseGenreState extends State<ChooseGenre>
               Container(
                 padding: EdgeInsets.only(top: deviceHeight(context)*0.7),
                 alignment: Alignment.center,
-                child: Text('Вы не выбрали жанры!',
+                child: Text(error,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.raleway
                     (fontWeight: FontWeight.w500,
@@ -229,7 +229,7 @@ class _ChooseGenreState extends State<ChooseGenre>
                       }
                       else
                       {
-                        print("Выбрано меньше 5 жанров");
+                        error = "Выбрано меньше 5 жанров";
                       }
                     },
                     child: Text('ПРИНЯТЬ',
