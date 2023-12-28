@@ -14,9 +14,9 @@ import "package:swipe_film/features/waiting_room//waiting_room.dart";
 
 
 final routes = {
-  '/': (context) => AnimationRoom(),
-  //'/': (context) => const FirstScreen(),
-  //'/': (context) => const FilmCards(),
+  // '/': (context) => AnimationRoom(),
+  '/': (context) => const FirstScreen(),
+  // '/': (context) => const FilmCards(),
   '/sign_in': (context) => const SignIn(),
   '/sign_up': (context) => const SignUp(),
   '/main': (context) => const MainMenu(),

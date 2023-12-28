@@ -17,6 +17,7 @@ class _MainMenuState extends State<CreateRoom> {
   String numberOfPeople = "";
   int roomType = 0;
   TextEditingController password = TextEditingController();
+  String error = "";
 
   int _peopleValue = 0;
   int _genreValue = 0; //id 0 - фильм, 1 - сериал, 2 - аниме программисты если что меняйте под себя
@@ -272,14 +273,20 @@ class _MainMenuState extends State<CreateRoom> {
 
                 //кнопка создать комнату
                 ElevatedButton(
-                  // БД ВЕРНУТЬ
-                  // onPressed: () async {
-                  //   var conn = await mysql().connect();
-                  //   await create_room().RoomCommit(int.parse(numberOfPeople), roomType, password.text, conn);
-                  //   await Future.delayed(Duration(microseconds: 100000));
-                  //   conn.close();
-                  // },
-                  onPressed: () {Navigator.pushNamed(context, '/waiting_room');},
+                  onPressed: () async {
+                    if (password != "")
+                      {
+                        var conn = await mysql().connect();
+                        await DBCreateRoom().RoomCommit(int.parse(numberOfPeople), roomType, password.text, conn);
+                        await Future.delayed(Duration(microseconds: 1000000));
+                        conn.close();
+                        Navigator.pushNamed(context, '/waiting_room');
+                      }
+                    else
+                      {
+                        error = "Введите пароль";
+                      }
+                  },
                   child: Text(
                     "СОЗДАТЬ КОМНАТУ",
                     style: GoogleFonts.raleway(
