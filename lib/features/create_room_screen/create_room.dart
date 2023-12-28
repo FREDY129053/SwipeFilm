@@ -19,7 +19,7 @@ class _MainMenuState extends State<CreateRoom> {
   TextEditingController password = TextEditingController();
   String error = "";
 
-  int _peopleValue = 0;
+  int _peopleValue = 2;
   int _genreValue = 0; //id 0 - фильм, 1 - сериал, 2 - аниме программисты если что меняйте под себя
 
   //кастомные кнопки выбора (радио-кнопки),
