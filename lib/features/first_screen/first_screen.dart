@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -151,6 +152,12 @@ class _FirstScreenState extends State<FirstScreen> {
                       fit: BoxFit.fitWidth,
                     ),
                   ),
+                ),
+
+                //снег поверх всех элементов (ignorepointer чтобы перекрытия не было)
+                IgnorePointer(
+                  ignoring: true, //true, чтобы разрешить взаимодействие
+                  child: Snow(),
                 ),
               ],
             ),

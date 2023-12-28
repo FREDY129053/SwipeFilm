@@ -66,7 +66,7 @@ class _MainMenuState extends State<MainMenu>
                         style: GoogleFonts.raleway(
                           color: Colors.white,
                           fontSize: 23,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       style: ButtonStyle(
@@ -96,7 +96,7 @@ class _MainMenuState extends State<MainMenu>
                         style: GoogleFonts.raleway(
                           color: Colors.white,
                           fontSize: 23,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       style: ButtonStyle(

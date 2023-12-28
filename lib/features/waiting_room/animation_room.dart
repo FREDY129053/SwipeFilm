@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 
 class AnimationRoom extends StatefulWidget {
   @override
@@ -15,10 +16,9 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 5));
 
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
 
     _controller.repeat();
   }

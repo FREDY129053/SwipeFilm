@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/sign_in_screen/sign_in.dart';
+import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 
 import '../../mysql.dart';
 
@@ -233,22 +234,22 @@ class _SignInState extends State<SignIn>
                               ),
                               // ВХОД
                               onPressed: () async {
-                                var conn = await mysql().connect();
-                                String result = await DBSignIn().SignInCheck(login.text, password.text, conn);
-                                if (result == "")
-                                {
-                                  currUserId = await DBSignIn().GetUserId(login.text, conn);
-                                  // Navigator.of(context).pushNamed('/main');
-                                  Future.delayed(Duration.zero, () {
-                                    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-                                  });
-                                }
-                                else
-                                {
-                                  error = result;
-                                }
-                                await Future.delayed(Duration(microseconds: 100000));
-                                conn.close();
+                                // var conn = await mysql().connect();
+                                // String result = await DBSignIn().SignInCheck(login.text, password.text, conn);
+                                // if (result == "")
+                                // {
+                                //   currUserId = await DBSignIn().GetUserId(login.text, conn);
+                                   Navigator.of(context).pushNamed('/main');
+                                //   Future.delayed(Duration.zero, () {
+                                //     Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+                                //   });
+                                // }
+                                // else
+                                // {
+                                //   error = result;
+                                // }
+                                // await Future.delayed(Duration(microseconds: 100000));
+                                // conn.close();
                               },
                               child: Text('Войти',
                                 style: GoogleFonts.raleway
@@ -297,6 +298,18 @@ class _SignInState extends State<SignIn>
                         )
                       ],
                     )
+                ),
+
+                //снег поверх всех элементов (ignorepointer чтобы перекрытия не было)
+                Positioned(
+                  bottom: 0, // Установите это значение так, чтобы снег не перекрывал ваши звезды снизу
+                  left: 0,
+                  right: 0,
+                  top: 0, // Обеспечьте, чтобы снег не перекрывал верхние элементы
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: Snow(),
+                  ),
                 ),
               ],
             ),

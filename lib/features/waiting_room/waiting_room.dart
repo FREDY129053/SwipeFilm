@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/waiting_room/waiting_room.dart';
 import 'package:swipe_film/mysql.dart';
+import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 
 import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
 
@@ -14,6 +15,8 @@ class WaitingRoom extends StatefulWidget {
   @override
   _WaitingRoomState createState() => _WaitingRoomState();
 }
+
+
 
 class _WaitingRoomState extends State<WaitingRoom>
 {
@@ -39,6 +42,7 @@ class _WaitingRoomState extends State<WaitingRoom>
           Stack(
             alignment: AlignmentDirectional.topCenter,
             children: [
+
               // Звезда сверху
               Transform.translate(
                 offset: Offset(deviceWidth(context)*0.03, deviceHeight(context)*-0.29),
