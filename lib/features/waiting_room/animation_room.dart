@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:swipe_film/features/waiting_room/snow_animation.dart';
+
+import '../../on_changes/card_provider.dart';
 
 class AnimationRoom extends StatefulWidget {
   @override
@@ -138,20 +141,11 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                               ),
                             ),
                             onPressed: () async {
-                              // var conn = await mysql().connect();
-                              // String result = await DBEnterRoom().EnterRoom(
-                              //     id.text, password.text, conn);
-                              //if (result == "") {
-                              //   Navigator.of(context).pushNamed(
-                              //       '/animation_room');
-                              //}
-                              // else {
-                              //   error = result;
-                              //   print(error);
-                              // }
-                              // await Future.delayed(Duration(
-                              //     microseconds: 1000000));
-                              // conn.close();
+                              final provider = Provider.of<CardProvider>(context, listen: false);
+                              if (await provider.test())
+                              Future.delayed(Duration(milliseconds: 500), () {
+                                Navigator.pushNamedAndRemoveUntil(context, '/film_card', (route) => false);
+                              });
                             },
                             child: Text('ВЛЕТЕТЬ!',
                               style: GoogleFonts.raleway
