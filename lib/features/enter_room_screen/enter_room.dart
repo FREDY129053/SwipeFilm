@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
+import 'package:swipe_film/features/sign_in_screen/sign_in_screen.dart';
 import 'package:swipe_film/mysql.dart';
 
 import '../choose_genre/ChooseGenre.dart';
@@ -201,13 +202,14 @@ class _EnterRoomState extends State<EnterRoom>
                                     String result = await DBEnterRoom().EnterRoom(id.text, password.text, conn);
                                     if (result == "")
                                       {
+                                        await DBEnterRoom().CommitRoomPartician(int.parse(id.text), currUserId, false, conn);
+                                        await Future.delayed(Duration(microseconds: 1000000));
                                         genres = await DBChooseGenre().GetGenres(conn);
                                         Navigator.of(context).pushNamed('/choose_genre');
                                       }
                                     else
                                       {
                                         error = result;
-                                        print(error);
                                       }
                                     await Future.delayed(Duration(microseconds: 1000000));
                                     conn.close();

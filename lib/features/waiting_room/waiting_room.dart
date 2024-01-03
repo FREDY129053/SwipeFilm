@@ -20,10 +20,6 @@ class WaitingRoom extends StatefulWidget {
 
 class _WaitingRoomState extends State<WaitingRoom>
 {
-  TextEditingController id = TextEditingController();
-  TextEditingController password = TextEditingController();
-  String error = "";
-
 
 
   @override
@@ -133,19 +129,18 @@ class _WaitingRoomState extends State<WaitingRoom>
                               ),
                             ),
                             onPressed: () async {
-                              var conn = await mysql().connect();
-                              String result = await DBEnterRoom().EnterRoom(id.text, password.text, conn);
-                              if (result == "")
-                              {
-                                Navigator.of(context).pushNamed('/animation_room');
-                              }
-                              else
-                              {
-                                error = result;
-                                print(error);
-                              }
-                              await Future.delayed(Duration(microseconds: 1000000));
-                              conn.close();
+                              // var conn = await mysql().connect();
+                              // String result = await DBEnterRoom().EnterRoom(id.text, password.text, conn);
+                              // if (result == "")
+                              // {
+                              //   Navigator.of(context).pushNamed('/animation_room');
+                              // }
+                              // else
+                              // {
+                              //   error = result;
+                              // }
+                              // await Future.delayed(Duration(microseconds: 1000000));
+                              // conn.close();
                             },
                             child: Text('ВЛЕТЕТЬ!',
                               style: GoogleFonts.raleway

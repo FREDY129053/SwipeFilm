@@ -35,4 +35,9 @@ class DBEnterRoom
       return "Неправильный ID комнаты или пароль";
     }
   }
+
+  Future<void> CommitRoomPartician(int roomId, int userId, bool isAdmin, MySqlConnection conn)
+  async {
+    await conn.query('INSERT particians_of_rooms (room_id, user_id, is_admin) VALUES (?, ?, ?);', [roomId, userId, isAdmin]);
+  }
 }
