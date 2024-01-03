@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:mysql1/mysql1.dart';
 
 class DBSignIn
@@ -8,7 +11,8 @@ class DBSignIn
     var log = await conn.query('SELECT login FROM users WHERE login = ?', [login]);
     if (log.toString() != "()")
     {
-      var pas = await conn.query('SELECT password FROM users WHERE login = ? AND password = ?', [login, password]);
+      var bytes = utf8.encode(password);
+      var pas = await conn.query('SELECT password FROM users WHERE login = ? AND password = ?', [login, sha1.convert(bytes).toString()]);
       if (pas.toString() != "()")
       {
         return "";
