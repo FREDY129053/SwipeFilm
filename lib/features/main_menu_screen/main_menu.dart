@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../waiting_room/snow_animation.dart';
+
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -132,7 +134,11 @@ class _MainMenuState extends State<MainMenu>
                   ),
                 ),
               ),
-            )
+            ),
+            IgnorePointer(
+              ignoring: true, //true, чтобы разрешить взаимодействие
+              child: Snow(),
+            ),
           ],
         ),
       );

@@ -239,10 +239,10 @@ class _SignInState extends State<SignIn>
                                 // if (result == "")
                                 // {
                                 //   currUserId = await DBSignIn().GetUserId(login.text, conn);
-                                   Navigator.of(context).pushNamed('/main');
-                                //   Future.delayed(Duration.zero, () {
-                                //     Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-                                //   });
+                                //    Navigator.of(context).pushNamed('/main');
+                                  Future.delayed(Duration.zero, () {
+                                    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+                                  });
                                 // }
                                 // else
                                 // {

@@ -107,7 +107,7 @@ class CardProvider extends ChangeNotifier {
     resetPosition();
   }
 
-  Future<void> test() async {
+  Future<bool> test() async {
     // _urlImages = [];
     _urlImages = <String>[
     'https://imagetmdb.com/t/p/original/yZIjfRdBOjOXK6X46IuvmGn7zJE.jpg',
@@ -145,15 +145,20 @@ class CardProvider extends ChangeNotifier {
     'https://imagetmdb.com/t/p/original/4f0Kj0QwPui5ydu1UavsnvP1m1o.jpg',
     'https://imagetmdb.com/t/p/original/70AV2Xx5FQYj20labp0EGdbjI6E.jpg',
     ];
-    for (var i in _urlImages) {
-      print(i);
-    }
+    // ];
+    // for (var i in _urlImages) {
+    //   print(i);
+    // }
     // var tmp = await FilmsList().getFilmsList();
     // for (var i in tmp) {
     //   _urlImages.add(i.posterUrl);
     //   print(i.posterUrl);
+    //   print(i.id);
     // }
 
     notifyListeners();
+
+    return true;
   }
+
 }

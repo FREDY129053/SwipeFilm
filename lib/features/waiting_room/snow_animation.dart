@@ -16,7 +16,7 @@ class _SnowState extends State<Snow> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
+    timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
       var data = SnowModel(
         size: (Random().nextInt(16) + 4).toDouble(),
         top: -10,
@@ -53,30 +53,46 @@ class _SnowState extends State<Snow> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.transparent,
-        ),
-        Stack(
-          children: listSnow.map((element) {
-            return AnimatedPositioned(
-              top: element.top,
-              left: element.left,
-              duration: Duration(seconds: element.duration!),
-              curve: Curves.linear,
-              child: Image.asset(
-                'assets/images/snowflake.png', // Укажите путь к вашему изображению снежинки
-                width: element.size,
-                height: element.size,
-              ),
-            );
-          }).toList(),
-        )
-      ],
-    );
+    // Когда анимация начинается и кончается в датах
+    DateTime currData = DateTime.now();
+    DateTime start = DateTime(DateTime.now().year, 12, 20);
+    DateTime stop = DateTime(DateTime.now().year + 1, 1, 20);
+
+    if (currData.isAfter(start) && currData.isBefore(stop)) {
+        return Stack(
+          children: [
+            Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              color: Colors.transparent,
+            ),
+            Stack(
+              children: listSnow.map((element) {
+                return AnimatedPositioned(
+                  top: element.top,
+                  left: element.left,
+                  duration: Duration(seconds: element.duration!),
+                  curve: Curves.linear,
+                  child: Image.asset(
+                    'assets/images/snowflake.png',
+                    // Укажите путь к вашему изображению снежинки
+                    width: element.size,
+                    height: element.size,
+                  ),
+                );
+              }).toList(),
+            )
+          ],
+        );
+    } else {
+      return const Stack();
+    }
   }
 }
 
