@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/create_room_screen/CreateRoom.dart';
+import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
+import 'package:swipe_film/features/sign_in_screen/sign_in_screen.dart';
 import 'package:swipe_film/mysql.dart';
 
 class CreateRoom extends StatefulWidget {
@@ -14,8 +16,6 @@ class CreateRoom extends StatefulWidget {
 class _MainMenuState extends State<CreateRoom> {
 
   bool _obsecureText = true;
-  String numberOfPeople = "";
-  int roomType = 0;
   TextEditingController password = TextEditingController();
   String error = "";
 
@@ -28,7 +28,6 @@ class _MainMenuState extends State<CreateRoom> {
   Widget peopleNumberButton(String text, int index) {
     return ElevatedButton(
       onPressed: () {
-        numberOfPeople = text;
         setState(() {
           _peopleValue = index;
         });
@@ -58,7 +57,6 @@ class _MainMenuState extends State<CreateRoom> {
   Widget genreButton(String text, int index) {
     return ElevatedButton(
       onPressed: () {
-        roomType = index;
         setState(() {
           _genreValue = index;
         });
@@ -277,10 +275,11 @@ class _MainMenuState extends State<CreateRoom> {
                     if (password != "")
                       {
                         var conn = await mysql().connect();
-                        await DBCreateRoom().RoomCommit(int.parse(numberOfPeople), roomType, password.text, conn);
-                        await Future.delayed(Duration(microseconds: 1000000));
-                        conn.close();
+                        int roomId = await DBCreateRoom().RoomCommit(currUserId ,_peopleValue, _genreValue, password.text, conn);
+                        await Future.delayed(Duration(microseconds: 500000));
+                        await DBEnterRoom().CommitRoomPartician(roomId, currUserId, true, conn);
                         Navigator.pushNamed(context, '/waiting_room');
+                        conn.close();
                       }
                     else
                       {

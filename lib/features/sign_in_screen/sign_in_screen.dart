@@ -234,22 +234,22 @@ class _SignInState extends State<SignIn>
                               ),
                               // ВХОД
                               onPressed: () async {
-                                // var conn = await mysql().connect();
-                                // String result = await DBSignIn().SignInCheck(login.text, password.text, conn);
-                                // if (result == "")
-                                // {
-                                //   currUserId = await DBSignIn().GetUserId(login.text, conn);
-                                //    Navigator.of(context).pushNamed('/main');
-                                  Future.delayed(Duration.zero, () {
-                                    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-                                  });
-                                // }
-                                // else
-                                // {
-                                //   error = result;
-                                // }
-                                // await Future.delayed(Duration(microseconds: 100000));
-                                // conn.close();
+                                var conn = await mysql().connect();
+                                String result = await DBSignIn().SignInCheck(login.text, password.text, conn);
+                                if (result == "")
+                                {
+                                  currUserId = await DBSignIn().GetUserId(login.text, conn);
+                                   Navigator.of(context).pushNamed('/main');
+                                }
+                                else
+                                {
+                                  error = result;
+                                }
+                                await Future.delayed(Duration(microseconds: 100000));
+                                conn.close();
+                                //   Future.delayed(Duration.zero, () {
+                                //     Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+                                //   });
                               },
                               child: Text('Войти',
                                 style: GoogleFonts.raleway
