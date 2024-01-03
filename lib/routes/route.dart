@@ -8,7 +8,8 @@ import "package:swipe_film/features/sign_up_screen/sign_up_screen.dart";
 import "package:swipe_film/features/film_card/film_card.dart";
 import "package:swipe_film/features/anime_card/anime_card.dart";
 import "package:swipe_film/features/waiting_room/animation_room.dart";
-import "package:swipe_film/features/waiting_room//waiting_room.dart";
+import "package:swipe_film/features/waiting_room/waiting_room.dart";
+import "package:swipe_film/features/easteregg/easteregg.dart";
 
 
 
@@ -29,4 +30,5 @@ final routes = {
   '/anime_card': (context) => const AnimeCard(),
   '/waiting_room': (context) => const WaitingRoom(),
   '/animation_room': (context) => AnimationRoom(),
+  '/easteregg': (context) => EasterEgg(),
 };
