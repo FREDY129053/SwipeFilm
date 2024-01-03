@@ -61,7 +61,7 @@ class _MainMenuState extends State<MainMenu>
                     width: 300, // Specify your desired width here
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed('/create_room');
+                        Navigator.of(context).pushNamed('/easteregg');
                       },
                       child: Text(
                         "СОЗДАТЬ КОМНАТУ",
