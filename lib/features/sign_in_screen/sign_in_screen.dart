@@ -214,7 +214,9 @@ class _SignInState extends State<SignIn>
                             style: TextButton.styleFrom(
                                 foregroundColor: mainTextColor
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/easteregg');
+                            },
                           ),
                         ),
 
