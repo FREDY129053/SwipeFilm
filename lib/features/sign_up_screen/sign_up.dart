@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:crypto/crypto.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:swipe_film/mysql.dart';
 import 'dart:async';
@@ -9,7 +11,8 @@ class DBSignUp
   Future<void> UserCommit(String login, String password, MySqlConnection conn)
   async {
     await Future.delayed(Duration(microseconds: 1000000));
-    conn.query('INSERT users (login, password) VALUES (?, ?);', [login, password]);
+    var bytes = utf8.encode(password);
+    await conn.query('INSERT users (login, password) VALUES (?, ?);', [login, sha1.convert(bytes).toString()]);
   }
 
   Future<String> LoginCheck(String login, MySqlConnection conn)
