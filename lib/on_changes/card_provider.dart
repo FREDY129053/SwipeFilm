@@ -16,6 +16,10 @@ class CardProvider extends ChangeNotifier {
   Offset get position => _position;
   double get angle => _angle;
 
+  int i = -1;
+  bool next = false;
+  int count = 1;
+
   CardProvider() {
     Future.delayed(Duration.zero, (){
       test();
@@ -44,10 +48,6 @@ class CardProvider extends ChangeNotifier {
     notifyListeners();
 
     final status = getStatus();
-
-    if (status != null) {
-      print(status.toString().toUpperCase());
-    }
 
     switch (status) {
       case CardStatus.like:
@@ -83,6 +83,7 @@ class CardProvider extends ChangeNotifier {
   void like() {
     _angle = 20;
     _position += Offset(2 * _screenSize.width, 0);
+    print(_urlImages[i]);
     _nextCard();
 
     notifyListeners();
@@ -103,7 +104,7 @@ class CardProvider extends ChangeNotifier {
 
     await Future.delayed(Duration(milliseconds: 200));
     _urlImages.removeLast();
-
+    i--;
     resetPosition();
   }
 
@@ -145,6 +146,7 @@ class CardProvider extends ChangeNotifier {
     'https://imagetmdb.com/t/p/original/4f0Kj0QwPui5ydu1UavsnvP1m1o.jpg',
     'https://imagetmdb.com/t/p/original/70AV2Xx5FQYj20labp0EGdbjI6E.jpg',
     ];
+    i = urlImages.length - 1;
     // ];
     // for (var i in _urlImages) {
     //   print(i);

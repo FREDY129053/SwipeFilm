@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 
 import '../../on_changes/card_provider.dart';
+import 'AnimationStar.dart';
+import 'dynamic_stars.dart';
 
 class AnimationRoom extends StatefulWidget {
   @override
@@ -13,23 +15,8 @@ class AnimationRoom extends StatefulWidget {
 }
 
 class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 5));
 
-    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
-
-    _controller.repeat();
-  }
-
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +27,10 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
+
+    final stars = StarWhileWaiting();
+    final rotateStar = AnimationStar();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFF5F0E1),
@@ -97,35 +88,39 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          RotationTransition(
-                            turns: _animation,
-                            child: Transform.scale(
-                              scale: 1.2,
-                              child: SvgPicture.asset('assets/svg/maskot.svg'),
-                            ),
+                            Expanded (
+                              child:  StreamBuilder<List<Widget>>(
+                              stream: stars.getStar(),
+                              builder: (BuildContext context, AsyncSnapshot<List<Widget>> snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return rotateStar;
+                                } else if (snapshot.hasError){
+                                  return Text("Error! ${snapshot.error}");
+                                } else if (!snapshot.hasData) {
+                                  return Text("No data!");
+                                } else {
+                                  final widgets = snapshot.data!.sublist(1);
+                                  final text = snapshot.data![0];
+                                  final padd = snapshot.data![1];
+                                  return Column(
+                                    children: [
+                                          Row (
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: widgets
+                                      ),
+                                          padd,
+                                          text,
+                                    ],
+                                  );
+                                }
+                              },
+                            )
                           ),
-                          Transform.rotate(angle: -45,
-                              child: Transform.scale(
-                                scale: 1.2,
-                                child: SvgPicture.asset(
-                                    'assets/svg/little_star.svg'),
-                              )
-                          ),
-                        ],
+                        ]
                       ),
 
-                      SizedBox(height: 40),
 
-                      Text("1/2 вошли в комнату",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.raleway(
-                          color: mainTextColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-
-                      SizedBox(height: 40),
+                      SizedBox(height: 30),
 
                       // кнопка входа
                       Container(
@@ -142,10 +137,11 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                             ),
                             onPressed: () async {
                               final provider = Provider.of<CardProvider>(context, listen: false);
-                              if (await provider.test())
-                              Future.delayed(Duration(milliseconds: 500), () {
+                              if (await provider.test()) {
+                                Future.delayed(const Duration(milliseconds: 500), () {
                                 Navigator.pushNamedAndRemoveUntil(context, '/film_card', (route) => false);
                               });
+                              }
                             },
                             child: Text('ВЛЕТЕТЬ!',
                               style: GoogleFonts.raleway

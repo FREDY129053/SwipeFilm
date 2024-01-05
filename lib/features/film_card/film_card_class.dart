@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,6 @@ class _FilmCardState extends State<FilmCard> {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final size = MediaQuery.of(context).size;
 
@@ -103,29 +103,12 @@ class _FilmCardState extends State<FilmCard> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.0), //скругленные края
               child:
-              // Вывод картинки
-              Image.network(
-                widget.urlImage, // URL изображения (динамический)
-                fit: BoxFit.cover,
-                // Позволяет показывать загрузку
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  }
-                },
-              ),
-              // Image.asset(
-              //   widget.urlImage, //путь к картинке (ИЗМЕНЯЕМОЕ)
-              //   fit: BoxFit.cover,
-              // ),
+                CachedNetworkImage(
+                  imageUrl: widget.urlImage,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                )
             ),
           ),
 
@@ -188,43 +171,10 @@ class _FilmCardState extends State<FilmCard> {
               // добавляйте больше если нужно
             ],
           ),
-
-
           const SizedBox(height: 20.0),
-
-
-
           //количество минут
           _buildMinuteContainer(128),
-
           const SizedBox(height: 20.0),
-
-
-
-          //SizedBox(height: 20.0),
-
-
-          // SizedBox(height: 20.0), // Adjust this spacing as needed
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     IconButton(
-          //       onPressed: () {
-          //         // Action for the close button
-          //       },
-          //       icon: Icon(Icons.close, size: 40.0),
-          //       iconSize: 40.0,
-          //     ),
-          //     IconButton(
-          //       onPressed: () {
-          //         // Action for the like button
-          //       },
-          //       icon: Icon(Icons.favorite, size: 40.0),
-          //       iconSize: 40.0,
-          //       color: Colors.red,
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     ),
@@ -299,5 +249,6 @@ class _FilmCardState extends State<FilmCard> {
       ),
     );
   }
+
 
 }

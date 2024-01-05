@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math';
 
