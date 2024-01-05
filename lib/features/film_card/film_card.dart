@@ -20,7 +20,7 @@ class _MainMenuState extends State<FilmCards> {
 
     //фон
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/pattern1.png'),
           fit: BoxFit.cover,
@@ -53,10 +53,9 @@ class _MainMenuState extends State<FilmCards> {
         )
 
       : Stack(
-          children: urlImages
-            .map((urlImageI) => FilmCard(
-            urlImage: urlImageI,
-            isFront: urlImages.last == urlImageI,
+          children: urlImages.asMap().entries.map((entry) => FilmCard(
+            urlImage: entry.value,
+            isFront: urlImages.last == entry.value,
           )).toList(),
         );
   }
