@@ -15,8 +15,8 @@ import "package:swipe_film/features/easteregg/easteregg.dart";
 
 
 final routes = {
-  '/': (context) => AnimationRoom(),
-  // '/': (context) => const FirstScreen(),
+  //'/': (context) => AnimationRoom(),
+   '/': (context) => const FirstScreen(),
   // '/': (context) => const FilmCards(),
   // '/': (context) => const WaitingRoom(),
   //'/': (context) => const ChooseGenre(),

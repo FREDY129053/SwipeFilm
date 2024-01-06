@@ -66,17 +66,19 @@ class _EnterRoomState extends State<EnterRoom>
                       ),
                     ),
 
-                    // Transform.translate(
-                    //   offset: Offset(200, 700),
-                    //   child: Container(
-                    //     child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-                    //   ),
-                    // ),
+                    Transform.translate(
+                      offset: Offset(deviceWidth(context)*0.37, deviceHeight(context)*0.75),
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+                      ),
+                    ),
 
                    // колонка с текстовыми полями
                     Container(
                         width: 350,
-                        padding: EdgeInsets.only(top: 300),
+                        margin: EdgeInsets.only(top: deviceHeight(context)*0.32),
+                        // padding: EdgeInsets.only(top: 300),
                         child: Column(
                           children: [
                             // текст ID

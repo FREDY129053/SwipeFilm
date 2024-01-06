@@ -61,12 +61,12 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                 ),
               ),
 
-              // Transform.translate(
-              //   offset: Offset(200, 700),
-              //   child: Container(
-              //     child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-              //   ),
-              // ),
+              Transform.translate(
+                offset: Offset(200, 700),
+                child: Container(
+                  child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+                ),
+              ),
 
               // колонка с текстовыми полями
               Container(
@@ -159,26 +159,26 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
           ),
 
           // звезда снизу
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: FractionallySizedBox(
-                alignment: Alignment.bottomRight,
-                widthFactor: 0.3,
-                // регулируйте это значение для смещения изображения вправо
-                heightFactor: 0.55,
-                child: OverflowBox(
-                  maxWidth: double.infinity,
-                  maxHeight: double.infinity,
-                  child: Transform.scale(
-                    scale: 0.8,
-                    // регулируйте это значение для уменьшения масштаба звезды
-                    child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Expanded(
+          //   child: Align(
+          //     alignment: Alignment.bottomRight,
+          //     child: FractionallySizedBox(
+          //       alignment: Alignment.bottomRight,
+          //       widthFactor: 0.3,
+          //       // регулируйте это значение для смещения изображения вправо
+          //       heightFactor: 0.55,
+          //       child: OverflowBox(
+          //         maxWidth: double.infinity,
+          //         maxHeight: double.infinity,
+          //         child: Transform.scale(
+          //           scale: 0.8,
+          //           // регулируйте это значение для уменьшения масштаба звезды
+          //           child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
