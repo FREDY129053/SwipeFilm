@@ -58,7 +58,7 @@ class _MainMenuState extends State<MainMenu>
                 children: [
                   Container(
                     height: 55,
-                    width: 300, // Specify your desired width here
+                    width: 400, // Specify your desired width here
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed('/create_room');
@@ -88,7 +88,7 @@ class _MainMenuState extends State<MainMenu>
                   //кнопка влететь в комнату
                   Container(
                     height: 55,
-                    width: 300, // Specify your desired width here
+                    width: 400, // Specify your desired width here
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed('/enter_room');

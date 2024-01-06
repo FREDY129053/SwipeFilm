@@ -126,10 +126,11 @@ class _MainMenuState extends State<CreateRoom> {
                             //     shadowColor: Color(0x33B80948),
                             //   ),
                             // ),
-                            SizedBox(width: 10),
+                            //SizedBox(width: 10),
                             // Adjust the space between elements
                             Text(
                               "Создать\nкомнату",
+                              textAlign: TextAlign.center,
                               style: GoogleFonts.raleway(
                                 color: Color(0xFF873B31),
                                 fontSize: 30.0,

@@ -17,6 +17,8 @@ class ChooseGenre extends StatefulWidget {
 
 class _ChooseGenreState extends State<ChooseGenre>
 {
+  double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
   String error = "";
   //виджет для выбора жанров
   Set<int> _selectedGenres = Set<int>();
@@ -31,21 +33,32 @@ class _ChooseGenreState extends State<ChooseGenre>
   return ElevatedButton(
     onPressed: () {
       toggleSelection();    },
-    child: Text(text,
-      style: GoogleFonts.raleway(
-        color: isSelected ? Color(0xFF873B31) : Color(0xFF873B31),
-        fontSize: 18.0,
-        fontWeight: FontWeight.w600,),
+    child: Container(
+      width: deviceWidth(context)*0.35,
+      child: Text(text,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.raleway(
+          color: isSelected ? Color(0xFF873B31) : Color(0xFF873B31),
+          fontSize: 18.0,
+          fontWeight: FontWeight.w600,),
+      ),
     ),
+    // Text(text,
+    //   style: GoogleFonts.raleway(
+    //     color: isSelected ? Color(0xFF873B31) : Color(0xFF873B31),
+    //     fontSize: 18.0,
+    //     fontWeight: FontWeight.w600,),
+    // ),
     style: ElevatedButton.styleFrom(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       backgroundColor: isSelected ? Color.fromRGBO(223, 234, 255, 1) : Color(0xFFFFF8F6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       side: BorderSide(color: isSelected ? Color(0xFF873B31) : Colors.transparent,
       ),
       elevation: 10,
       shadowColor: Color(0x33B80948),
-    ),  );
+    ),
+  );
   }
 
 
@@ -53,6 +66,7 @@ class _ChooseGenreState extends State<ChooseGenre>
   Widget build(BuildContext context) {
     // Запрет переворота экрана в горизонтальный режим
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
 
     List<Widget> buttonsList1 = [];
     List<Widget> buttonsList2 = [];
@@ -106,10 +120,10 @@ class _ChooseGenreState extends State<ChooseGenre>
 
               //контейнер с жанрами
               Container(
-                width: deviceWidth(context)*0.9,
-                height: deviceHeight(context)*0.35,
+                width: deviceWidth(context)*0.95,
+                height: deviceHeight(context)*0.4,
                 // padding: EdgeInsets.all(1),
-                margin: EdgeInsets.only(top: deviceHeight(context)*0.33),
+                margin: EdgeInsets.only(top: deviceHeight(context)*0.32),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
