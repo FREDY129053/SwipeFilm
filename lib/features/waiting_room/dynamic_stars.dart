@@ -8,6 +8,9 @@ import 'package:swipe_film/features/waiting_room/animation_room.dart';
 import '../../mysql.dart';
 
 class StarWhileWaiting {
+  final int roomID;
+
+  StarWhileWaiting(this.roomID);
 
   final rotateStar = AnimationStar();
   final staticStar = Transform.rotate(angle: -45,
@@ -21,8 +24,9 @@ class StarWhileWaiting {
   Stream<List<Widget>> getStar() async* {
     while (true){
       List<Widget> tmp = [];
-      int active = await _allCount();
-      int inRoom = await _inRoomCount();
+      int active = await _allCount(roomID);
+      int inRoom = await _inRoomCount(roomID);
+      int isStart = await _isStartRoom(roomID);
       tmp.add(
         Text("$inRoom/$active вошли в комнату",
           textAlign: TextAlign.center,
@@ -35,6 +39,7 @@ class StarWhileWaiting {
       );
 
       tmp.add(SizedBox(height: 40),);
+      tmp.add(Text(isStart.toString()),);
 
       for (int i = 0; i < inRoom; i++) {
         tmp.add(rotateStar);
@@ -49,9 +54,8 @@ class StarWhileWaiting {
   }
 
 
-  Future<int> _allCount() async {
+  Future<int> _allCount(int id) async {
     int tmp = 0;
-    int id = 2;
     var conn = await mysql().connect();
     await Future.delayed(Duration(microseconds: 1000000));
     var result = await conn.query('SELECT count_of_people FROM rooms WHERE id = ?', [id]);
@@ -61,9 +65,8 @@ class StarWhileWaiting {
     return tmp;
   }
 
-  Future<int> _inRoomCount() async {
+  Future<int> _inRoomCount(int id) async {
     int tmp = 0;
-    int id = 2;
     var conn = await mysql().connect();
     await Future.delayed(Duration(microseconds: 1000000));
     var result = await conn.query('SELECT COUNT(*) AS people FROM particians_of_rooms WHERE room_id = ?', [id]);
@@ -72,14 +75,12 @@ class StarWhileWaiting {
 
     return tmp;
   }
-
-  Future<int> inRoomCount() async {
+  Future<int> _isStartRoom(int id) async {
     int tmp = 0;
-    int id = 2;
     var conn = await mysql().connect();
     await Future.delayed(Duration(microseconds: 1000000));
-    var result = await conn.query('SELECT COUNT(*) AS people FROM particians_of_rooms WHERE room_id = ?', [id]);
-    tmp = result.first['people'];
+    var result = await conn.query('SELECT is_start FROM rooms WHERE id = ?', [id]);
+    tmp = result.first['is_start'];
     conn.close();
 
     return tmp;

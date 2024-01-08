@@ -8,8 +8,6 @@ import 'package:swipe_film/mysql.dart';
 
 import '../choose_genre/ChooseGenre.dart';
 
-List<Genre> genres = [];
-
 class EnterRoom extends StatefulWidget {
   const EnterRoom({Key? key}) : super(key: key);
 
@@ -19,6 +17,17 @@ class EnterRoom extends StatefulWidget {
 
 class _EnterRoomState extends State<EnterRoom>
 {
+  void updateError(String newError) {
+    setState(() {
+      error = '';
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        error = newError;
+      });
+    });
+  }
+
   TextEditingController id = TextEditingController();
   TextEditingController password = TextEditingController();
   String error = "";
@@ -204,14 +213,18 @@ class _EnterRoomState extends State<EnterRoom>
                                     String result = await DBEnterRoom().EnterRoom(id.text, password.text, conn);
                                     if (result == "")
                                       {
-                                        await DBEnterRoom().CommitRoomPartician(int.parse(id.text), currUserId, false, conn);
+                                        final int roomID = int.parse(id.text);
+                                        await DBEnterRoom().CommitRoomPartician(roomID, currUserId, false, conn);
                                         await Future.delayed(Duration(microseconds: 1000000));
-                                        genres = await DBChooseGenre().GetGenres(conn);
-                                        Navigator.of(context).pushNamed('/choose_genre');
+                                        final genres = ModalRoute.of(context)!.settings.arguments as List<Genre>;
+                                        Future.delayed(Duration.zero, () {
+                                          Navigator.pushNamedAndRemoveUntil(context, '/choose_genre', arguments: [genres, roomID, password.text, false], (route) => false);
+                                        });
+                                        conn.close();
                                       }
                                     else
                                       {
-                                        error = result;
+                                        updateError(result);
                                       }
                                     await Future.delayed(Duration(microseconds: 1000000));
                                     conn.close();

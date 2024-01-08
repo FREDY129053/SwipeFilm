@@ -4,10 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../mysql.dart';
-import '../enter_room_screen/enter_room.dart';
 import '../sign_in_screen/sign_in_screen.dart';
 import 'ChooseGenre.dart';
-
 
 class ChooseGenre extends StatefulWidget {
   const ChooseGenre({Key? key}) : super(key: key);
@@ -17,6 +15,17 @@ class ChooseGenre extends StatefulWidget {
 
 class _ChooseGenreState extends State<ChooseGenre>
 {
+  void updateError(String newError) {
+    setState(() {
+      error = '';
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        error = newError;
+      });
+    });
+  }
+
   double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
   String error = "";
@@ -67,6 +76,11 @@ class _ChooseGenreState extends State<ChooseGenre>
     // Запрет переворота экрана в горизонтальный режим
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+    final arguments = ModalRoute.of(context)!.settings.arguments as List;
+    final genres = arguments[0];
+    final int roomID = arguments[1];
+    final String pass = arguments[2];
+    final bool isAdmin = arguments[3];
 
     List<Widget> buttonsList1 = [];
     List<Widget> buttonsList2 = [];
@@ -239,11 +253,15 @@ class _ChooseGenreState extends State<ChooseGenre>
                       if (_selectedGenres.length > 4)
                       {
                         await DBChooseGenre().GenresCommit(_selectedGenres, currUserId, conn);
-                        Navigator.of(context).pushNamed('/film_card');
+                        await Future.delayed(Duration(microseconds: 1000000));
+                        Future.delayed(Duration.zero, () {
+                          Navigator.pushNamedAndRemoveUntil(context, '/waiting_room', arguments: [roomID, pass, isAdmin], (route) => false);
+                        });
+                        conn.close();
                       }
                       else
                       {
-                        error = "Выбрано меньше 5 жанров";
+                        updateError("Выбрано меньше 5 жанров");
                       }
                     },
                     child: Text('ПРИНЯТЬ',

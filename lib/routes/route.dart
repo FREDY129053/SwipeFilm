@@ -15,7 +15,7 @@ import "package:swipe_film/features/easteregg/easteregg.dart";
 
 
 final routes = {
-  //'/': (context) => AnimationRoom(),
+  // '/': (context) => AnimationRoom(),
    '/': (context) => const FirstScreen(),
   // '/': (context) => const FilmCards(),
   // '/': (context) => const WaitingRoom(),
@@ -28,7 +28,8 @@ final routes = {
   '/choose_genre': (context) => const ChooseGenre(),
   '/film_card': (context) => const FilmCards(),
   '/anime_card': (context) => const AnimeCard(),
-  '/waiting_room': (context) => const WaitingRoom(),
-  '/animation_room': (context) => AnimationRoom(),
+  // '/waiting_room': (context) => const WaitingRoom(),
+  '/waiting_room': (context) => AnimationRoom(),
+  // '/animation_room': (context) => AnimationRoom(),
   '/easteregg': (context) => const EasterEgg(),
 };

@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../mysql.dart';
+import '../choose_genre/ChooseGenre.dart';
 import '../waiting_room/snow_animation.dart';
 
+List<Genre> genres = [];
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -60,8 +63,10 @@ class _MainMenuState extends State<MainMenu>
                     height: 55,
                     width: 400, // Specify your desired width here
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/create_room');
+                      onPressed: () async {
+                        var conn = await mysql().connect();
+                        genres = await DBChooseGenre().GetGenres(conn);
+                        Navigator.of(context).pushNamed('/create_room', arguments: genres);
                       },
                       child: Text(
                         "СОЗДАТЬ КОМНАТУ",
@@ -90,8 +95,10 @@ class _MainMenuState extends State<MainMenu>
                     height: 55,
                     width: 400, // Specify your desired width here
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/enter_room');
+                      onPressed: () async {
+                        var conn = await mysql().connect();
+                        genres = await DBChooseGenre().GetGenres(conn);
+                        Navigator.of(context).pushNamed('/enter_room', arguments: genres);
                       },
                       child: Text(
                         "ВЛЕТЕТЬ В КОМНАТУ",
@@ -135,10 +142,10 @@ class _MainMenuState extends State<MainMenu>
                 ),
               ),
             ),
-            IgnorePointer(
-              ignoring: true, //true, чтобы разрешить взаимодействие
-              child: Snow(),
-            ),
+            // IgnorePointer(
+            //   ignoring: true, //true, чтобы разрешить взаимодействие
+            //   child: Snow(),
+            // ),
           ],
         ),
       );

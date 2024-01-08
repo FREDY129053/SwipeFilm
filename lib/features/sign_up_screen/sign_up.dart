@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:crypto/crypto.dart';
 import 'package:mysql1/mysql1.dart';
