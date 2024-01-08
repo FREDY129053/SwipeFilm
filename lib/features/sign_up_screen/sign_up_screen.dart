@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/sign_up_screen/sign_up.dart';
 
@@ -18,6 +17,17 @@ class SignUp extends StatefulWidget{
 
 class _SignUpState extends State<SignUp>
 {
+  void updateError(String newError) {
+    setState(() {
+      error = '';
+    });
+    Future.delayed(const Duration(milliseconds: 150), () {
+      setState(() {
+        error = newError;
+      });
+    });
+  }
+
   // переменные для пароля
   bool _obsecureText = true;
   bool _obsecureText_2 = true;
@@ -282,7 +292,8 @@ class _SignUpState extends State<SignUp>
                                   }
                                   else
                                   {
-                                    error = await DBSignUp().SignUpCheck(login.text, password.text, passwordRepeat.text, conn);
+                                    String res = await DBSignUp().SignUpCheck(login.text, password.text, passwordRepeat.text, conn);
+                                    updateError(res);
                                   }
                                   await Future.delayed(Duration(microseconds: 1000000));
                                   conn.close();

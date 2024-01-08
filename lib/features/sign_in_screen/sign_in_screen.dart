@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:swipe_film/features/sign_in_screen/sign_in.dart';
 import 'package:swipe_film/features/waiting_room/snow_animation.dart';
@@ -19,6 +18,17 @@ class SignIn extends StatefulWidget{
 
 class _SignInState extends State<SignIn>
 {
+  void updateError(String newError) {
+    setState(() {
+      error = '';
+    });
+    Future.delayed(const Duration(milliseconds: 150), () {
+      setState(() {
+        error = newError;
+      });
+    });
+  }
+
   bool _obsecureText = true;
   @override
   TextEditingController login = TextEditingController();
@@ -35,7 +45,7 @@ class _SignInState extends State<SignIn>
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Color(0xFFF5F0E1),
+      backgroundColor: const Color(0xFFF5F0E1),
 
       body: SingleChildScrollView(
         reverse: true,
@@ -46,9 +56,9 @@ class _SignInState extends State<SignIn>
               children: [
                 //звезда сверху
                 Transform.translate(
-                  offset: Offset(-160, 220),
+                  offset: const Offset(-160, 220),
                   child: RotationTransition(
-                    turns: AlwaysStoppedAnimation(30 / 360),
+                    turns: const AlwaysStoppedAnimation(30 / 360),
                     child: Opacity(
                       opacity: 0.5,
                       child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
@@ -58,9 +68,9 @@ class _SignInState extends State<SignIn>
 
                 // звезда снизу
                 Transform.translate(
-                  offset: Offset(170, 550),
+                  offset: const Offset(170, 550),
                   child: ScaleTransition(
-                    scale: AlwaysStoppedAnimation(0.8),
+                    scale: const AlwaysStoppedAnimation(0.8),
                     child: Opacity(
                       opacity: 0.5,
                       child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
@@ -116,7 +126,7 @@ class _SignInState extends State<SignIn>
 
                         // логин
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           alignment: Alignment.centerLeft,
                           child: Text('Логин',
                             textAlign: TextAlign.center,
@@ -130,10 +140,10 @@ class _SignInState extends State<SignIn>
                         // поле для ввода логина
                         TextFormField(
                           controller: login,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Color.fromRGBO(186, 151, 161, 1)),
                           decoration: InputDecoration(
-                              fillColor: Color.fromRGBO(255, 248, 246, 1),
+                              fillColor: const Color.fromRGBO(255, 248, 246, 1),
                               filled: true,
                               hintText: 'Введите логин',
                               hintStyle: const TextStyle(
@@ -146,14 +156,14 @@ class _SignInState extends State<SignIn>
                         ),
                         // подпись об ошибке
                         Container(
-                          padding: EdgeInsets.only(top: 5, left: 10),
+                          padding: const EdgeInsets.only(top: 5, left: 10),
                           alignment: Alignment.centerLeft,
                           child: Text(error,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.raleway
                               (fontWeight: FontWeight.w500,
                                 fontSize: 16,
-                                color: Color.fromRGBO(172, 31, 31, 1)),
+                                color: const Color.fromRGBO(172, 31, 31, 1)),
                           ),
                         ),
 
@@ -164,7 +174,7 @@ class _SignInState extends State<SignIn>
 
                         // пароль
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           alignment: Alignment.centerLeft,
                           child: Text('Пароль',
                             textAlign: TextAlign.center,
@@ -192,8 +202,8 @@ class _SignInState extends State<SignIn>
                                   });
                                 }, icon: Icon(_obsecureText? Icons.visibility: Icons.visibility_off),
                               ),
-                              suffixIconColor: Color.fromRGBO(186, 151, 161, 1),
-                              fillColor: Color.fromRGBO(255, 248, 246, 1),
+                              suffixIconColor: const Color.fromRGBO(186, 151, 161, 1),
+                              fillColor: const Color.fromRGBO(255, 248, 246, 1),
                               filled: true,
                               hintText: 'Введите пароль',
                               hintStyle: const TextStyle(
@@ -210,13 +220,13 @@ class _SignInState extends State<SignIn>
                         Container(
                           alignment: Alignment.centerRight,
                           child:  TextButton(
-                            child: Text('Забыли пароль?'),
                             style: TextButton.styleFrom(
                                 foregroundColor: mainTextColor
                             ),
                             onPressed: () {
                               Navigator.of(context).pushNamed('/easteregg');
                             },
+                            child: const Text('Забыли пароль?'),
                           ),
                         ),
 
@@ -226,10 +236,10 @@ class _SignInState extends State<SignIn>
                             margin: EdgeInsets.only(top: deviceHeight(context)*0.05),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
+                                shadowColor: const Color.fromRGBO(184, 9, 72, 0.25),
                                 elevation: 10,
-                                backgroundColor: Color.fromRGBO(231, 104, 56, 1),
-                                minimumSize: Size(350, 55),
+                                backgroundColor: const Color.fromRGBO(231, 104, 56, 1),
+                                minimumSize: const Size(350, 55),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25),
                                 ),
@@ -241,17 +251,16 @@ class _SignInState extends State<SignIn>
                                 if (result == "")
                                 {
                                   currUserId = await DBSignIn().GetUserId(login.text, conn);
-                                   Navigator.of(context).pushNamed('/main');
+                                  Future.delayed(Duration.zero, () {
+                                    Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+                                  });
                                 }
                                 else
                                 {
-                                  error = result;
+                                  updateError(result);
                                 }
-                                await Future.delayed(Duration(microseconds: 100000));
+                                await Future.delayed(const Duration(microseconds: 100000));
                                 conn.close();
-                                //   Future.delayed(Duration.zero, () {
-                                //     Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
-                                //   });
                               },
                               child: Text('Войти',
                                 style: GoogleFonts.raleway
@@ -283,7 +292,7 @@ class _SignInState extends State<SignIn>
                               padding: EdgeInsets.only(top: deviceHeight(context)*0.01),
                               child: TextButton(
                                 style: TextButton.styleFrom(
-                                    foregroundColor: Color.fromRGBO(231, 104, 56, 1)
+                                    foregroundColor: const Color.fromRGBO(231, 104, 56, 1)
                                 ),
                                 onPressed: () {
                                   Navigator.of(context).pushNamed('/sign_up');
@@ -303,19 +312,18 @@ class _SignInState extends State<SignIn>
                 ),
 
                 //снег поверх всех элементов (ignorepointer чтобы перекрытия не было)
-                Positioned(
-                  bottom: 0, // Установите это значение так, чтобы снег не перекрывал ваши звезды снизу
-                  left: 0,
-                  right: 0,
-                  top: 0, // Обеспечьте, чтобы снег не перекрывал верхние элементы
-                  child: IgnorePointer(
-                    ignoring: true,
-                    child: Snow(),
-                  ),
-                ),
+                // const Positioned(
+                //   bottom: 0, // Установите это значение так, чтобы снег не перекрывал ваши звезды снизу
+                //   left: 0,
+                //   right: 0,
+                //   top: 0, // Обеспечьте, чтобы снег не перекрывал верхние элементы
+                //   child: IgnorePointer(
+                //     ignoring: true,
+                //     child: Snow(),
+                //   ),
+                // ),
               ],
             ),
-
           ],
         ),
       ),

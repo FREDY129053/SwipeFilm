@@ -155,10 +155,10 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
 
                 //снег поверх всех элементов (ignorepointer чтобы перекрытия не было)
-                IgnorePointer(
-                  ignoring: true, //true, чтобы разрешить взаимодействие
-                  child: Snow(),
-                ),
+                // IgnorePointer(
+                //   ignoring: true, //true, чтобы разрешить взаимодействие
+                //   child: Snow(),
+                // ),
               ],
             ),
           ),

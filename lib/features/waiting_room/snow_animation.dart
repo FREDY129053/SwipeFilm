@@ -36,11 +36,11 @@ class _SnowState extends State<Snow> {
         var min = listSnow.length - 5;
         var randomIndex = Random().nextInt(max) + min;
 
-        listSnow[randomIndex].left = listSnow[randomIndex].left! +
-            (listSnow[randomIndex].left! >
-                MediaQuery.of(context).size.width * 0.5
-                ? -50.0
-                : 50.0);
+        // listSnow[randomIndex].left = listSnow[randomIndex].left! +
+        //     (listSnow[randomIndex].left! >
+        //         MediaQuery.of(context).size.width * 0.5
+        //         ? -50.0
+        //         : 50.0);
       }
     });
   }

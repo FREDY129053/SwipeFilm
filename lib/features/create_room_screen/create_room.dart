@@ -7,6 +7,8 @@ import 'package:swipe_film/features/enter_room_screen/EnterRoom.dart';
 import 'package:swipe_film/features/sign_in_screen/sign_in_screen.dart';
 import 'package:swipe_film/mysql.dart';
 
+import '../choose_genre/ChooseGenre.dart';
+
 class CreateRoom extends StatefulWidget {
   const CreateRoom({Key? key}) : super(key: key);
   @override
@@ -273,13 +275,16 @@ class _MainMenuState extends State<CreateRoom> {
                 //кнопка создать комнату
                 ElevatedButton(
                   onPressed: () async {
-                    if (password != "")
+                    if (password.text != "")
                       {
                         var conn = await mysql().connect();
                         int roomId = await DBCreateRoom().RoomCommit(currUserId ,_peopleValue, _genreValue, password.text, conn);
-                        await Future.delayed(Duration(microseconds: 500000));
+                        await Future.delayed(const Duration(microseconds: 500000));
                         await DBEnterRoom().CommitRoomPartician(roomId, currUserId, true, conn);
-                        Navigator.pushNamed(context, '/waiting_room');
+                        final genres = ModalRoute.of(context)!.settings.arguments as List<Genre>;
+                        Future.delayed(Duration.zero, () {
+                          Navigator.pushNamedAndRemoveUntil(context, '/choose_genre', arguments: [genres, roomId, password.text, true], (route) => false);
+                        });
                         conn.close();
                       }
                     else

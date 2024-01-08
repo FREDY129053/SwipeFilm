@@ -3,19 +3,32 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:swipe_film/features/waiting_room/snow_animation.dart';
 
+import '../../mysql.dart';
 import '../../on_changes/card_provider.dart';
 import 'AnimationStar.dart';
 import 'dynamic_stars.dart';
 
 class AnimationRoom extends StatefulWidget {
+  const AnimationRoom({super.key});
+
   @override
   _AnimationRoomState createState() => _AnimationRoomState();
 }
 
 class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProviderStateMixin {
+  late Future<bool> _testResult;
 
+  @override
+  void initState() {
+    super.initState();
+    _initializeTestResult();
+  }
+
+  Future<void> _initializeTestResult() async {
+    final provider = Provider.of<CardProvider>(context, listen: false);
+    _testResult = provider.test();
+  }
 
 
   @override
@@ -24,16 +37,22 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+    final args = ModalRoute.of(context)!.settings.arguments as List;
+    final int roomID = args[0];
+    final String pass = args[1];
+    final bool isAdmin = args[2];
+
     double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     const mainTextColor = Color.fromRGBO(135, 59, 49, 1);
 
-    final stars = StarWhileWaiting();
+    final stars = StarWhileWaiting(roomID);
     final rotateStar = AnimationStar();
+    final int isStart;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFFF5F0E1),
+      backgroundColor: const Color(0xFFF5F0E1),
       body: Column(
         children: [
           Stack(
@@ -50,7 +69,7 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
               ),
               // текст на звезде
               Container(
-                padding: EdgeInsets.only(top: 80),
+                padding: const EdgeInsets.only(top: 80),
                 child: Text('Ждем\nлюдей...',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.raleway(
@@ -62,28 +81,45 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
               ),
 
               Transform.translate(
-                offset: Offset(200, 700),
-                child: Container(
-                  child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
-                ),
+                offset: const Offset(200, 700),
+                child: SvgPicture.asset('assets/svg/mainmenu_star2.svg'),
               ),
 
               // колонка с текстовыми полями
               Container(
                   width: 350,
-                  padding: EdgeInsets.only(top: 300),
+                  padding: const EdgeInsets.only(top: 300),
                   child: Column(
                     children: [
-                      // айди комнаты
-                      Text('ID комнаты: 115111',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.raleway(
-                          color: mainTextColor,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ID комнаты: ',
+                              style: GoogleFonts.raleway(
+                                color: mainTextColor,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            // Копирование текста в буфер обмена
+                            GestureDetector(
+                              onTap: () {
+                                final String text = "ID: ${roomID.toString()}\nПароль: $pass";
+                                Clipboard.setData(ClipboardData(text: text));
+                              },
+                              child: Text(
+                                roomID.toString(),
+                                style: GoogleFonts.raleway(
+                                  color: mainTextColor,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 80),
+                      const SizedBox(height: 80),
                       // ряд звезд
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,11 +133,36 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                                 } else if (snapshot.hasError){
                                   return Text("Error! ${snapshot.error}");
                                 } else if (!snapshot.hasData) {
-                                  return Text("No data!");
+                                  return const Text("No data!");
                                 } else {
-                                  final widgets = snapshot.data!.sublist(1);
+                                  final widgets = snapshot.data!.sublist(3);
                                   final text = snapshot.data![0];
                                   final padd = snapshot.data![1];
+                                  final isStartText = snapshot.data![2];
+                                  print(isStartText);
+                                  if (isStartText is Text && isStartText.data == '1') {
+                                    return FutureBuilder<bool>(
+                                      future: _testResult,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return CircularProgressIndicator();
+                                        } else if (snapshot.hasData) {
+                                          if (snapshot.data!) {
+                                            Future.delayed(const Duration(milliseconds: 500), () {
+                                              Navigator.pushNamedAndRemoveUntil(context, '/film_card', (route) => false);
+                                            });
+                                          }
+                                          // Возвращаем что-то, например пустой контейнер
+                                          return Container();
+                                        } else if (snapshot.hasError) {
+                                          return Text('Error! ${snapshot.error}');
+                                        } else {
+                                          return Text('No data!');
+                                        }
+                                      },
+                                    );
+                                  }
+
                                   return Column(
                                     children: [
                                           Row (
@@ -120,38 +181,37 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                       ),
 
 
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
 
                       // кнопка входа
-                      Container(
-                          margin: EdgeInsets.only(top: 50),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 10,
-                              shadowColor: Color.fromRGBO(184, 9, 72, 0.25),
-                              backgroundColor: Color.fromRGBO(255, 173, 15, 1),
-                              minimumSize: Size(275, 55),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                      Visibility(
+                        visible: isAdmin,
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 50),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 10,
+                                shadowColor: const Color.fromRGBO(184, 9, 72, 0.25),
+                                backgroundColor: const Color.fromRGBO(255, 173, 15, 1),
+                                minimumSize: const Size(275, 55),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
                               ),
-                            ),
-                            onPressed: () async {
-                              final provider = Provider.of<CardProvider>(context, listen: false);
-                              if (await provider.test()) {
-                                Future.delayed(const Duration(milliseconds: 500), () {
-                                Navigator.pushNamedAndRemoveUntil(context, '/film_card', (route) => false);
-                              });
-                              }
-                            },
-                            child: Text('ВЛЕТЕТЬ!',
-                              style: GoogleFonts.raleway
-                                (fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  color: Colors.white),
-                            ),
-                          )
+                              onPressed: () async {
+                                var conn = await mysql().connect();
+                                await Future.delayed(Duration(microseconds: 1000000));
+                                await conn.query('UPDATE rooms SET is_start = ? WHERE id = ?;', [1, roomID]);
+                              },
+                              child: Text('ВЛЕТЕТЬ!',
+                                style: GoogleFonts.raleway
+                                  (fontWeight: FontWeight.w700,
+                                    fontSize: 24,
+                                    color: Colors.white),
+                              ),
+                            )
+                        ),
                       ),
-
                     ],
                   )
               ),
