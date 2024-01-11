@@ -62,7 +62,7 @@ class FilmsList {
     }
 
 
-    int filmCount = 60;
+    int filmCount = 1;
 
     if (allGenres[0].isEmpty) {   // Если нет общих жанров
       var tmp = [];
@@ -179,7 +179,7 @@ class FilmsList {
           var genres = List<String>.from(
               i['genres'].map((genre) => genre['name'] as String));
           print("ID = $id");
-          int movieLength = i['movieLength'] != null ? i['movieLength'] :  999999;
+          int movieLength = i['movieLength'] ?? 999999;
           FilmInfo fl = FilmInfo(
               id: id,
               name: name,

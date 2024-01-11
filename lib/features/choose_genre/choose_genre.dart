@@ -252,8 +252,9 @@ class _ChooseGenreState extends State<ChooseGenre>
                       var conn = await mysql().connect();
                       if (_selectedGenres.length > 4)
                       {
+                        print("Genres = $_selectedGenres");
                         await DBChooseGenre().GenresCommit(_selectedGenres, currUserId, conn);
-                        await Future.delayed(Duration(microseconds: 1000000));
+                        // await Future.delayed(Duration(microseconds: 1000000));
                         Future.delayed(Duration.zero, () {
                           Navigator.pushNamedAndRemoveUntil(context, '/waiting_room', arguments: [roomID, pass, isAdmin], (route) => false);
                         });

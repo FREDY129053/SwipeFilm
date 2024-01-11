@@ -1,21 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:swipe_film/features/sign_in_screen/sign_in_screen.dart';
 import 'package:swipe_film/repo/films_list.dart';
 import 'package:swipe_film/repo/models/FilmInfo.dart';
+
+import '../mysql.dart';
 
 enum CardStatus {like, dislike}
 
 class CardProvider extends ChangeNotifier {
-  late int theme = 0;
   late int roomId = 0;
 
-  List<FilmInfo> _films = [];
+  List<FilmInfo> films = [];
 
   bool _isDrag = false;
   Offset _position = Offset.zero;
   Size _screenSize = Size.zero;
   double _angle = 0;
 
-  List<FilmInfo> get films => _films;
+  // List<FilmInfo> get filmsList => films;
   bool get isDragging => _isDrag;
   Offset get position => _position;
   double get angle => _angle;
@@ -24,10 +28,12 @@ class CardProvider extends ChangeNotifier {
   bool next = false;
   int count = 1;
 
+  final Completer<List<FilmInfo>> _completer = Completer<List<FilmInfo>>();
+
   CardProvider() {
-    Future.delayed(Duration.zero, (){
-      test(roomId, theme);
-    });
+    // Future.delayed(Duration.zero, (){
+    //   test(roomId);
+    // });
   }
 
   void setScreenSize(Size size) => _screenSize = size;
@@ -88,7 +94,7 @@ class CardProvider extends ChangeNotifier {
     _angle = 20;
     _position += Offset(2 * _screenSize.width, 0);
     _nextCard();
-
+    print("Ok $roomId and $currUserId");
     notifyListeners();
   }
 
@@ -96,31 +102,37 @@ class CardProvider extends ChangeNotifier {
     _angle = -20;
     _position -= Offset(2 * _screenSize.width, 0);
     _nextCard();
-
+    print("Not OK");
     notifyListeners();
   }
 
   Future _nextCard() async {
-    if (_films.isEmpty) {
+    if (films.isEmpty) {
       return;
     }
 
-    await Future.delayed(Duration(milliseconds: 200));
-    _films.removeLast();
+    await Future.delayed(const Duration(milliseconds: 200));
+    films.removeLast();
     i--;
     resetPosition();
   }
 
-  Future<bool> test(int roomID, int theme) async {
+  Future<List<FilmInfo>> test(int roomID) async {
+    var conn = await mysql().connect();
+    await Future.delayed(Duration(microseconds: 1000000));
+    var query = await conn.query('SELECT theme FROM rooms WHERE id = ?', [roomID]);
+    int theme = int.parse(query.first['theme'].toString());
     List<FilmInfo> tmp = await FilmsList().getFilmsList(roomID, theme);
     for (var ii in tmp) {
-      _films.add(ii);
+      films.add(ii);
     }
-    i = _films.length - 1;
+
+    _completer.complete(tmp);
+    i = films.length - 1;
 
     notifyListeners();
 
-    return true;
+    return _completer.future;
   }
 
 }
