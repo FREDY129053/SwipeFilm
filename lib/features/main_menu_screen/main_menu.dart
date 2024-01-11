@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../mysql.dart';
 import '../choose_genre/ChooseGenre.dart';
-import '../waiting_room/snow_animation.dart';
+// import '../waiting_room/snow_animation.dart';
 
 List<Genre> genres = [];
 
@@ -23,29 +23,33 @@ class _MainMenuState extends State<MainMenu>
     // Запрет переворота экрана в горизонтальный режим
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+    double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+    double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         backgroundColor: Color(0xFFF5F0E1),
         body: Column(
           children: [
             //верхняя часть со звездой и текстом
             Transform.translate(
-              offset: Offset(0, -220), // для того, чтобы звезда находилась наверху и была обрезана рамками экрана
+              offset: Offset(deviceWidth(context)*0.03, deviceHeight(context)*-0.28), // для того, чтобы звезда находилась наверху и была обрезана рамками экрана
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   //звезда
-                  Container(
+                  Transform.scale(
+                    scale: 1.2,
                     child: SvgPicture.asset('assets/svg/mainmenu_star1.svg'),
                   ),
 
                   //текст на звезде
                   Transform.translate(
-                    offset: Offset(0, 40), // Adjust the value as necessary
+                    offset: Offset(-15, 110), // Adjust the value as necessary
                     child: Text(
                       "Меню комнат",
                       style: GoogleFonts.raleway(
                         color: Color(0xFF873B31),
-                        fontSize: 30.0,
+                        fontSize: 32.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -56,12 +60,13 @@ class _MainMenuState extends State<MainMenu>
 
             //колонна из двух кнопок
             Transform.translate(
-              offset: Offset(0, -195),
+              offset: Offset(0, -deviceHeight(context)*0.15),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     height: 55,
-                    width: 400, // Specify your desired width here
+                    width: deviceWidth(context)*0.85, // Specify your desired width here
                     child: ElevatedButton(
                       onPressed: () async {
                         var conn = await mysql().connect();
@@ -93,7 +98,7 @@ class _MainMenuState extends State<MainMenu>
                   //кнопка влететь в комнату
                   Container(
                     height: 55,
-                    width: 400, // Specify your desired width here
+                    width: deviceWidth(context)*0.85400, // Specify your desired width here
                     child: ElevatedButton(
                       onPressed: () async {
                         var conn = await mysql().connect();

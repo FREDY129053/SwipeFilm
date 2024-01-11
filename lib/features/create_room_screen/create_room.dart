@@ -91,6 +91,8 @@ class _MainMenuState extends State<CreateRoom> {
     // Запрет переворота экрана в горизонтальный режим
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+    double deviceHeight(BuildContext context) => MediaQuery.of(context).size.height;
+    double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -105,12 +107,16 @@ class _MainMenuState extends State<CreateRoom> {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    SvgPicture.asset(
-                      'assets/svg/mainmenu_star1.svg',
-                      width: MediaQuery.of(context).size.width, //если это убрать, появится ненужный пробел между звездой и настройками
+                    Transform.translate(
+                      offset: Offset(deviceWidth(context)*0.03, deviceHeight(context)*-0.05),
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: SvgPicture.asset('assets/svg/mainmenu_star1.svg',
+                        width: MediaQuery.of(context).size.width,),
+                      ),
                     ),
                     Transform.translate(
-                      offset: Offset(0, (MediaQuery.of(context).size.height * 0.05)),
+                      offset: Offset(0, (MediaQuery.of(context).size.height * 0.07)),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -135,7 +141,7 @@ class _MainMenuState extends State<CreateRoom> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.raleway(
                                 color: Color(0xFF873B31),
-                                fontSize: 30.0,
+                                fontSize: 32.0,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
