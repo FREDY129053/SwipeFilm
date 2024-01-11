@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../mysql.dart';
 import '../../on_changes/card_provider.dart';
+import '../../repo/models/FilmInfo.dart';
 import 'AnimationStar.dart';
 import 'dynamic_stars.dart';
 
@@ -17,7 +18,6 @@ class AnimationRoom extends StatefulWidget {
 }
 
 class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProviderStateMixin {
-  late Future<bool> _testResult;
 
   @override
   void initState() {
@@ -43,6 +43,8 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
     // Запрет переворота экрана в горизонтальный режим
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    final provider = Provider.of<CardProvider>(context, listen: false);
 
     final args = ModalRoute.of(context)!.settings.arguments as List;
     final int roomID = args[0];
@@ -147,27 +149,16 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                                   final isStartText = snapshot.data![2];
                                   // Проверяет значение isStart для изменения всех экранов
                                   if (isStartText is Text && isStartText.data?[0] == '1') {
-                                    // return FutureBuilder<bool>(
-                                    //   future: _testResult,
-                                    //   builder: (context, snapshot) {
-                                    //     if (snapshot.connectionState == ConnectionState.waiting) {
-                                    //       return const CircularProgressIndicator();
-                                    //     } else if (snapshot.hasData) {
-                                    //       if (snapshot.data!) {
-                                            Future.delayed(const Duration(milliseconds: 1000), () {
-                                              Navigator.pushNamedAndRemoveUntil(context, '/film_card', arguments: [roomID, int.parse(isStartText.data![1])], (route) => false);
-                                            });
-                                          }
-                                          // Возвращаем что-то, например пустой контейнер
-                                      //     return Container();
-                                      //   } else if (snapshot.hasError) {
-                                      //     return Text('Error waiting! ${snapshot.error}');
-                                      //   } else {
-                                      //     return Text('No data!');
-                                      //   }
-                                      // },
-                                    // );
-
+                                    provider.test(roomID).then((result) {
+                                      print("TMP = ${result.length} and ${result.runtimeType}");
+                                      Future.delayed(const Duration(milliseconds: 1000), () {
+                                        Navigator.pushNamedAndRemoveUntil(context, '/film_card', arguments: [roomID, int.parse(isStartText.data![1]), result], (route) => false);
+                                      });
+                                    });
+                                    // Future.delayed(const Duration(milliseconds: 1000), () {
+                                    //   Navigator.pushNamedAndRemoveUntil(context, '/film_card', arguments: [roomID, int.parse(isStartText.data![1])], (route) => false);
+                                    // });
+                                  }
 
                                   return Column(
                                     children: [
