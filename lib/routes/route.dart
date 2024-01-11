@@ -29,7 +29,7 @@ final routes = {
   '/film_card': (context) => const FilmCards(),
   '/anime_card': (context) => const AnimeCard(),
   // '/waiting_room': (context) => const WaitingRoom(),
-  '/waiting_room': (context) => AnimationRoom(),
+  '/waiting_room': (context) => const AnimationRoom(),
   // '/animation_room': (context) => AnimationRoom(),
   '/easteregg': (context) => const EasterEgg(),
 };

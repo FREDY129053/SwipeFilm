@@ -22,13 +22,20 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _initializeTestResult();
+    // final args = ModalRoute.of(context)!.settings.arguments as List;
+    // final int roomID = args[0];
+    // final provider = Provider.of<CardProvider>(context, listen: false);
+    // _testResult = provider.test(roomID, 0);
   }
 
-  Future<void> _initializeTestResult() async {
-    final provider = Provider.of<CardProvider>(context, listen: false);
-    _testResult = provider.test();
-  }
+  // Future<Future<bool>> _initializeTestResult() async {
+  //   final args = ModalRoute.of(context)!.settings.arguments as List;
+  //   final int roomID = args[0];
+  //   final provider = Provider.of<CardProvider>(context, listen: false);
+  //   // return provider.test(roomID, 0);
+  //   // _testResult = test(roomID, theme);
+  //   // setState(() {});
+  // }
 
 
   @override
@@ -48,7 +55,6 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
 
     final stars = StarWhileWaiting(roomID);
     final rotateStar = AnimationStar();
-    final int isStart;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -131,7 +137,7 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                   return rotateStar;
                                 } else if (snapshot.hasError){
-                                  return Text("Error! ${snapshot.error}");
+                                  return Text("Error stars! ${snapshot.error}");
                                 } else if (!snapshot.hasData) {
                                   return const Text("No data!");
                                 } else {
@@ -139,29 +145,29 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                                   final text = snapshot.data![0];
                                   final padd = snapshot.data![1];
                                   final isStartText = snapshot.data![2];
-                                  print(isStartText);
-                                  if (isStartText is Text && isStartText.data == '1') {
-                                    return FutureBuilder<bool>(
-                                      future: _testResult,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return CircularProgressIndicator();
-                                        } else if (snapshot.hasData) {
-                                          if (snapshot.data!) {
-                                            Future.delayed(const Duration(milliseconds: 500), () {
-                                              Navigator.pushNamedAndRemoveUntil(context, '/film_card', (route) => false);
+                                  // Проверяет значение isStart для изменения всех экранов
+                                  if (isStartText is Text && isStartText.data?[0] == '1') {
+                                    // return FutureBuilder<bool>(
+                                    //   future: _testResult,
+                                    //   builder: (context, snapshot) {
+                                    //     if (snapshot.connectionState == ConnectionState.waiting) {
+                                    //       return const CircularProgressIndicator();
+                                    //     } else if (snapshot.hasData) {
+                                    //       if (snapshot.data!) {
+                                            Future.delayed(const Duration(milliseconds: 1000), () {
+                                              Navigator.pushNamedAndRemoveUntil(context, '/film_card', arguments: [roomID, int.parse(isStartText.data![1])], (route) => false);
                                             });
                                           }
                                           // Возвращаем что-то, например пустой контейнер
-                                          return Container();
-                                        } else if (snapshot.hasError) {
-                                          return Text('Error! ${snapshot.error}');
-                                        } else {
-                                          return Text('No data!');
-                                        }
-                                      },
-                                    );
-                                  }
+                                      //     return Container();
+                                      //   } else if (snapshot.hasError) {
+                                      //     return Text('Error waiting! ${snapshot.error}');
+                                      //   } else {
+                                      //     return Text('No data!');
+                                      //   }
+                                      // },
+                                    // );
+
 
                                   return Column(
                                     children: [

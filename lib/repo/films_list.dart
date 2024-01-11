@@ -5,12 +5,11 @@ import 'package:swipe_film/repo/models/FilmInfo.dart';
 import '../mysql.dart';
 
 class FilmsList {
+  Set<FilmInfo> resultFilms = <FilmInfo>{};
   final Dio dio = Dio();
-  String apiKey = 'KCE1046-VR9MNCT-J04XCGF-ETNJP41';
+  String apiKey = 'DN35CZS-9REMWPS-MFN7N0P-2Z7ZGCB';
 
-  // Future<List<FilmInfo>> getFilmsList() async {
-  Future<List<FilmInfo>> getFilmsList() async {
-    int roomId = 1;
+  Future<List<FilmInfo>> getFilmsList(int roomID, int theme) async {
     Set<FilmInfo> resultFilms = <FilmInfo>{};
 
     var conn = await mysql().connect();
@@ -21,7 +20,7 @@ class FilmsList {
         JOIN user_choice_genre user_choice ON g.id = user_choice.genre_id
         JOIN particians_of_rooms members ON user_choice.member_id = members.user_id
         WHERE members.room_id = ?
-    ''', [roomId]));
+    ''', [roomID]));
 
     Set<int> countMembers = {};
     Map<int, List<String>> genresByUser = {};
@@ -37,6 +36,7 @@ class FilmsList {
     }
 
     List<List<String>> genres = genresByUser.values.toList();
+    print("ALL GENRES = $genres");
     List<String> sameGenres = List.from(genres.first);
     for (var i = 1; i < genres.length; i++) {
       sameGenres =
@@ -62,7 +62,7 @@ class FilmsList {
     }
 
 
-    int filmCount = 30;
+    int filmCount = 60;
 
     if (allGenres[0].isEmpty) {   // Если нет общих жанров
       var tmp = [];
@@ -72,24 +72,11 @@ class FilmsList {
         }
       }
       int n = filmCount ~/ (allGenres.length - 1) + 1;
+      n++;
       for (int i = 0; i < tmp.length; i++) {
         // Запрос к API по всем парам жанров
         final response = await dio.get(
-            'https://api.kinopoisk.dev/v1.4/movie?limit=$n'
-                '&selectFields=id'
-                '&selectFields=name'
-                '&selectFields=year'
-                '&selectFields=countries'
-                '&selectFields=shortDescription'
-                '&selectFields=movieLength'
-                '&selectFields=poster'
-                '&selectFields=genres'
-                '&genres.name=%2B${tmp[i][0]}'
-                '&genres.name=%2B${tmp[i][1]}'
-                '&genres.name=%21мультфильм'
-                '&genres.name=%21аниме'
-                '&type=%21tv-series'
-                '&type=%21anime',
+            _getUrl(n, tmp[i], theme),
             options: Options(
               headers: {'X-API-KEY': apiKey},
             )
@@ -97,17 +84,17 @@ class FilmsList {
 
         // Получение данных из API
         final data = response.data as Map<String, dynamic>;
-        final dataDocs = data['docs'];
+        final apiResult = data['docs'];
 
         // Формирование данных для класса FilmInfo
-        for (var i in dataDocs) {
+        for (var i in apiResult) {
           int id = i['id'];
-          String name = i['name'];
+          String name = i['name'] ?? i['names'][0][0];
           String country = List<String>.from(
               i['countries'].map((genre) => genre['name'] as String))[0];
-          String poster = i['poster']['url'];
+          String poster = i['backdrop']['url'];
           int year = i['year'];
-          String desc = i['shortDescription'] ?? 'Нет описания';
+          String desc = i['shortDescription'] ?? '\nНет описания\n';
           var genres = List<String>.from(
               i['genres'].map((genre) => genre['name'] as String));
           int movieLength = i['movieLength'];
@@ -166,24 +153,11 @@ class FilmsList {
             n = filmCount ~/ tmp.sublist(countOfSamePairsGenres - 1).length;
           }
         }
-
+        n++;
+        print("I = ${tmp[i]} and N = $n");
         // Запрос к API по всем парам жанров
         final response = await dio.get(
-            'https://api.kinopoisk.dev/v1.4/movie?limit=$n'
-                '&selectFields=id'
-                '&selectFields=name'
-                '&selectFields=year'
-                '&selectFields=countries'
-                '&selectFields=shortDescription'
-                '&selectFields=movieLength'
-                '&selectFields=backdrop'
-                '&selectFields=genres'
-                '&genres.name=%2B${tmp[i][0]}'
-                '&genres.name=%2B${tmp[i][1]}'
-                '&genres.name=%21мультфильм'
-                '&genres.name=%21аниме'
-                '&type=%21tv-series'
-                '&type=%21anime',
+            _getUrl(n, tmp[i], theme),
             options: Options(
               headers: {'X-API-KEY': apiKey},
             )
@@ -191,21 +165,21 @@ class FilmsList {
 
         // Получение данных из API
         final data = response.data as Map<String, dynamic>;
-        final dataDocs = data['docs'];
+        final apiResult = data['docs'];
 
         // Формирование данных для класса FilmInfo
-        for (var i in dataDocs) {
+        for (var i in apiResult) {
           int id = i['id'];
           String name = i['name'] ?? i['names'][0][0];
           String country = List<String>.from(
               i['countries'].map((genre) => genre['name'] as String))[0];
-          // String poster = i['poster']['url'];
           String poster = i['backdrop']['url'];
           int year = i['year'];
-          String desc = i['shortDescription'] ?? 'Нет описания';
+          String desc = i['shortDescription'] ?? '\nНет описания\n';
           var genres = List<String>.from(
               i['genres'].map((genre) => genre['name'] as String));
-          int movieLength = i['movieLength'];
+          print("ID = $id");
+          int movieLength = i['movieLength'] != null ? i['movieLength'] :  999999;
           FilmInfo fl = FilmInfo(
               id: id,
               name: name,
@@ -218,12 +192,57 @@ class FilmsList {
           );
 
           resultFilms.add(fl);
-          // print(fl.name);
+          print(fl.name);
         }
       }
     }
 
     return resultFilms.toList();
+  }
+
+  String _getUrl(int count, List<String> pairGenre, int theme) {
+    int n = count;
+    if (theme == 2)
+      {
+        return 'https://api.kinopoisk.dev/v1.4/movie?limit=$n'
+            '&selectFields=id'
+            '&selectFields=name'
+            '&selectFields=names'
+            '&selectFields=year'
+            '&selectFields=countries'
+            '&selectFields=shortDescription'
+            '&selectFields=movieLength'
+            '&selectFields=backdrop'
+            '&selectFields=genres'
+            '&genres.name=%2B${pairGenre[0]}'
+            '&genres.name=%2B${pairGenre[1]}'
+            '&genres.name=аниме'
+            '&type=anime'
+            '&type=%21tv-series'
+            '&type=%21cartoon'
+            '&type=%21animated-series'
+            '&type=%21movie';
+      } else {
+        return 'https://api.kinopoisk.dev/v1.4/movie?limit=$n'
+            '&selectFields=id'
+            '&selectFields=name'
+            '&selectFields=names'
+            '&selectFields=year'
+            '&selectFields=countries'
+            '&selectFields=shortDescription'
+            '&selectFields=movieLength'
+            '&selectFields=backdrop'
+            '&selectFields=genres'
+            '&genres.name=%2B${pairGenre[0]}'
+            '&genres.name=%2B${pairGenre[1]}'
+            '&genres.name=%21мультфильм'
+            '&genres.name=%21аниме'
+            '&type=%21tv-series'
+            '&type=%21anime'
+            '&type=%21cartoon'
+            '&type=%21animated-series'
+            '&type=movie';
+    }
   }
 
   void _createUniquePairs(List<String> items, int start, List<String> pair, List<List<String>> result) {

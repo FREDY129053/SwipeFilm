@@ -26,7 +26,7 @@ class StarWhileWaiting {
       List<Widget> tmp = [];
       int active = await _allCount(roomID);
       int inRoom = await _inRoomCount(roomID);
-      int isStart = await _isStartRoom(roomID);
+      String isStart = await _isStartRoom(roomID);
       tmp.add(
         Text("$inRoom/$active вошли в комнату",
           textAlign: TextAlign.center,
@@ -75,12 +75,12 @@ class StarWhileWaiting {
 
     return tmp;
   }
-  Future<int> _isStartRoom(int id) async {
-    int tmp = 0;
+  Future<String> _isStartRoom(int id) async {
+    String tmp;
     var conn = await mysql().connect();
     await Future.delayed(Duration(microseconds: 1000000));
-    var result = await conn.query('SELECT is_start FROM rooms WHERE id = ?', [id]);
-    tmp = result.first['is_start'];
+    var result = await conn.query('SELECT is_start, theme FROM rooms WHERE id = ?', [id]);
+    tmp = result.first['is_start'].toString() + result.first['theme'].toString();
     conn.close();
 
     return tmp;

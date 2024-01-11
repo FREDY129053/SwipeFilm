@@ -1,6 +1,15 @@
 import 'package:collection/collection.dart';
 
 class FilmInfo {
+  final int id;
+  final String name;
+  final String country;
+  final String posterUrl;
+  final int year;
+  final String description;
+  final List<String> genres;
+  final int duration;
+
   FilmInfo({
     required this.id,
     required this.name,
@@ -12,14 +21,7 @@ class FilmInfo {
     required this.duration
   });
 
-  final int id;
-  final String name;
-  final String country;
-  final String posterUrl;
-  final int year;
-  final String description;
-  final List<String> genres;
-  final int duration;
+
 
   @override
   int get hashCode => id.hashCode;
