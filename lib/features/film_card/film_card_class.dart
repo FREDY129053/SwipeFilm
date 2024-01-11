@@ -8,12 +8,26 @@ import 'package:provider/provider.dart';
 import '../../on_changes/card_provider.dart';
 
 class FilmCard extends StatefulWidget {
+  final int id;
+  final String name;
+  final String country;
   final String urlImage;
+  final int year;
+  final String description;
+  final List<String> genres;
+  final int duration;
   final bool isFront;
 
   const FilmCard({
     Key? key,
+    required this.id,
+    required this.name,
+    required this.country,
     required this.urlImage,
+    required this.year,
+    required this.description,
+    required this.genres,
+    required this.duration,
     required this.isFront,
   }) : super(key: key);
 
@@ -116,7 +130,7 @@ class _FilmCardState extends State<FilmCard> {
 
           //название
           Text(
-            'Название фильма',
+            widget.name,
             textAlign: TextAlign.center,
             style: GoogleFonts.raleway(
               color: const Color(0xFF873A31),
@@ -127,7 +141,7 @@ class _FilmCardState extends State<FilmCard> {
 
           //страна, год
           Text(
-            'Страна, год',
+            "${widget.country}, ${widget.year}",
             textAlign: TextAlign.center,
             style: GoogleFonts.raleway(
               color: const Color(0xFF873B31),
@@ -147,7 +161,7 @@ class _FilmCardState extends State<FilmCard> {
               border: Border.all(color: const Color(0xFF873B31)),
             ),
             child: Text(
-              'Мальчик-озорник задает жару грабителям. Лучшая комедия для создания праздничного настроения у всей семьи.',
+              widget.description,
               textAlign: TextAlign.center,
               style: GoogleFonts.raleway(
                 color: const Color(0xFF873B31),
@@ -164,16 +178,11 @@ class _FilmCardState extends State<FilmCard> {
             alignment: WrapAlignment.center,
             spacing: 10.0,
             runSpacing: 8.0,
-            children: [
-              _buildGenreContainer('Мелодрама'),
-              _buildGenreContainer('История'),
-              _buildGenreContainer('Триллер'),
-              // добавляйте больше если нужно
-            ],
+            children: _buildGenreContainer(widget.genres),
           ),
           const SizedBox(height: 20.0),
           //количество минут
-          _buildMinuteContainer(128),
+          _buildMinuteContainer(widget.duration),
           const SizedBox(height: 20.0),
         ],
       ),
@@ -181,28 +190,35 @@ class _FilmCardState extends State<FilmCard> {
   );
 
   // Отображение жанров
-  Widget _buildGenreContainer(String text) {
-    double horizontalPadding = 15.0;
-    if (text.length > 10) {
-      horizontalPadding = 10.0; // меньшие отступы по бокам если текст длинный
-    }
+  List<Widget> _buildGenreContainer(List<String> itemGenres) {
+    List<Widget> genresContainer = [];
+    itemGenres.forEach((text) {
+      double horizontalPadding = 15.0;
+      if (text.length > 10) {
+        horizontalPadding = 10.0; // меньшие отступы по бокам если текст длинный
+      }
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: horizontalPadding),
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(223, 234, 255, 1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Color(0xFF873B31)),
-      ),
-      child: Text(
-        text,
-        style: GoogleFonts.raleway(
-          color: Color(0xFF873B31),
-          fontSize: 14.0,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
+      genresContainer.add(
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: horizontalPadding),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(223, 234, 255, 1),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Color(0xFF873B31)),
+          ),
+          child: Text(
+            text,
+            style: GoogleFonts.raleway(
+              color: Color(0xFF873B31),
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        )
+      );
+    });
+
+    return genresContainer;
   }
 
   //виджет для отображения количества серий (принимает число серий)
@@ -212,12 +228,15 @@ class _FilmCardState extends State<FilmCard> {
     //русский язык
     if (episodeCount == 1) {
       episodeText = 'минута';
+    } else if (episodeCount == 999999) {
+      episodeText = 'многосерийный';
     } else if (episodeCount >= 2 && episodeCount <= 4 ||
         (episodeCount >= 21 && episodeCount % 10 >= 2 && episodeCount % 10 <= 4)) {
       episodeText = 'минуты';
     } else {
       episodeText = 'минут';
     }
+    final String episodeInString = episodeCount == 999999 ? '' : episodeCount.toString();
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
@@ -229,7 +248,7 @@ class _FilmCardState extends State<FilmCard> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            episodeCount.toString(),
+            episodeInString,
             style: GoogleFonts.raleway(
               color: Colors.white,
               fontSize: 16.0,

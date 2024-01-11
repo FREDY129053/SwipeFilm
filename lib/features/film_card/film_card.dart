@@ -17,12 +17,15 @@ class FilmCards extends StatefulWidget {
 class _MainMenuState extends State<FilmCards> {
   @override
   Widget build(BuildContext context) {
-
+    final args = ModalRoute.of(context)!.settings.arguments as List;
+    int theme = args[1];
     //фон
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/pattern1.png'),
+          image: theme == 0
+              ? const AssetImage('assets/images/pattern1.png')
+              : const AssetImage('assets/images/pattern1_anime.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -37,26 +40,39 @@ class _MainMenuState extends State<FilmCards> {
 
   // TEST
   Widget buildCards() {
+    final args = ModalRoute.of(context)!.settings.arguments as List;
     final provider = Provider.of<CardProvider>(context);
     Future.delayed(const Duration(microseconds: 1), () {});
-    final urlImages = provider.urlImages;
+    provider.theme = args[1];
+    provider.roomId = args[0];
+    final films = provider.films;
+    print("Lenght = ${films.length}");
 
-    return urlImages.isEmpty
+    return films.isEmpty
       ? Center(
           child: ElevatedButton(
             onPressed: () {
               final provider = Provider.of<CardProvider>(context, listen: false);
-              provider.test();
+              provider.test(args[0], args[1]);
             },
             child: Text('Заново'),
           ),
         )
 
       : Stack(
-          children: urlImages.asMap().entries.map((entry) => FilmCard(
-            urlImage: entry.value,
-            isFront: urlImages.last == entry.value,
-          )).toList(),
+          children: films.map((resultFilm) =>
+              FilmCard(
+                id: resultFilm.id,
+                name: resultFilm.name,
+                country: resultFilm.country,
+                urlImage: resultFilm.posterUrl,
+                year: resultFilm.year,
+                description: resultFilm.description,
+                genres: resultFilm.genres,
+                duration: resultFilm.duration,
+                isFront: films.last == resultFilm,
+              )
+          ).toList()
         );
   }
 }
