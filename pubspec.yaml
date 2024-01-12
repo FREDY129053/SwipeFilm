@@ -23,6 +23,7 @@ dependencies:
   http: ^1.1.0
   cached_network_image: ^3.3.1
   confetti: ^0.7.0
+  flash_card: ^0.0.7
 
 dev_dependencies:
   flutter_test:

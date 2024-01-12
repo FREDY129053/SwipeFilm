@@ -8,8 +8,10 @@ class SwipeFilmApp extends StatelessWidget {
   const SwipeFilmApp({super.key});
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context) => CardProvider(),
+  Widget build(BuildContext context) => MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => CardProvider()),
+    ],
     child: MaterialApp(
       title: 'Swipe Film',
       debugShowCheckedModeBanner: false,

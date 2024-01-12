@@ -182,7 +182,7 @@ class _ChooseGenreState extends State<ChooseGenre>
                   ],
                 ),
               ),
-
+              SizedBox(height: 30,),
               //подпись при ошибке
               Container(
                 padding: EdgeInsets.only(top: deviceHeight(context)*0.7),
@@ -234,7 +234,6 @@ class _ChooseGenreState extends State<ChooseGenre>
               //     ],
               //   ),
               // ),
-
               //кнопка принять
               Container(
                   margin: EdgeInsets.only(top: deviceHeight(context)*0.8),
@@ -249,16 +248,17 @@ class _ChooseGenreState extends State<ChooseGenre>
                       ),
                     ),
                     onPressed: () async {
-                      var conn = await mysql().connect();
+
                       if (_selectedGenres.length > 4)
                       {
-                        print("Genres = $_selectedGenres");
-                        await DBChooseGenre().GenresCommit(_selectedGenres, currUserId, conn);
+                        await DBChooseGenre().GenresCommit(_selectedGenres, currUserId);
                         // await Future.delayed(Duration(microseconds: 1000000));
-                        Future.delayed(Duration.zero, () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/waiting_room', arguments: [roomID, pass, isAdmin], (route) => false);
-                        });
-                        conn.close();
+                        // if (tmp) {
+                          Future.delayed(Duration.zero, () {
+                            Navigator.pushNamedAndRemoveUntil(context, '/waiting_room', arguments: [roomID, pass, isAdmin], (route) => false);
+                          });
+                        // }
+
                       }
                       else
                       {

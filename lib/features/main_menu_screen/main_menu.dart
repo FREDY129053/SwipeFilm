@@ -71,6 +71,7 @@ class _MainMenuState extends State<MainMenu>
                       onPressed: () async {
                         var conn = await mysql().connect();
                         genres = await DBChooseGenre().GetGenres(conn);
+                        conn.close();
                         Navigator.of(context).pushNamed('/create_room', arguments: genres);
                       },
                       child: Text(
@@ -103,6 +104,7 @@ class _MainMenuState extends State<MainMenu>
                       onPressed: () async {
                         var conn = await mysql().connect();
                         genres = await DBChooseGenre().GetGenres(conn);
+                        conn.close();
                         Navigator.of(context).pushNamed('/enter_room', arguments: genres);
                       },
                       child: Text(

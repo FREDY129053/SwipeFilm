@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:swipe_film/features/film_card/film_card.dart';
 
 import '../../on_changes/card_provider.dart';
 
@@ -17,6 +18,7 @@ class FilmCard extends StatefulWidget {
   final List<String> genres;
   final int duration;
   final bool isFront;
+  final bool isFinal;
 
   const FilmCard({
     Key? key,
@@ -29,6 +31,7 @@ class FilmCard extends StatefulWidget {
     required this.genres,
     required this.duration,
     required this.isFront,
+    required this.isFinal,
   }) : super(key: key);
 
   @override
@@ -79,19 +82,25 @@ class _FilmCardState extends State<FilmCard> {
     onPanStart: (details) {
       final provider = Provider.of<CardProvider>(context, listen: false);
 
-      provider.startPosition(details);
+      if (!widget.isFinal) {
+        provider.startPosition(details);
+      }
     },
     
-    onPanUpdate: (details) {
+    onPanUpdate: (details) async {
       final provider = Provider.of<CardProvider>(context, listen: false);
 
-      provider.updatePosition(details);
+      if (!widget.isFinal) {
+        provider.updatePosition(details);
+      }
     },
 
     onPanEnd: (details) {
       final provider = Provider.of<CardProvider>(context, listen: false);
 
-      provider.endPosition();
+      if (!widget.isFinal) {
+        provider.endPosition();
+      }
     },
   );
 
