@@ -16,6 +16,16 @@ class CreateRoom extends StatefulWidget {
 }
 
 class _MainMenuState extends State<CreateRoom> {
+  void updateError(String newError) {
+    setState(() {
+      error = '';
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        error = newError;
+      });
+    });
+  }
 
   bool _obsecureText = true;
   TextEditingController password = TextEditingController();
@@ -295,7 +305,7 @@ class _MainMenuState extends State<CreateRoom> {
                       }
                     else
                       {
-                        error = "Введите пароль";
+                         updateError("Введите пароль");
                       }
                   },
                   child: Text(

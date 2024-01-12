@@ -194,6 +194,19 @@ class _EnterRoomState extends State<EnterRoom>
                                 ),
                               ),
                             ),
+                            SizedBox(height: 10,),
+                            Container(
+                              padding: const EdgeInsets.only(top: 5, left: 10),
+                              alignment: Alignment.centerLeft,
+                              child: Text(error,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.raleway
+                                  (fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: const Color.fromRGBO(172, 31, 31, 1)),
+                              ),
+                            ),
+                            SizedBox(height: 5,),
 
                             // кнопка входа
                             Container(

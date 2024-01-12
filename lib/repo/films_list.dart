@@ -7,7 +7,59 @@ import '../mysql.dart';
 class FilmsList {
   Set<FilmInfo> resultFilms = <FilmInfo>{};
   final Dio dio = Dio();
-  String apiKey = 'DN35CZS-9REMWPS-MFN7N0P-2Z7ZGCB';
+  // String apiKey = 'DN35CZS-9REMWPS-MFN7N0P-2Z7ZGCB';
+  String apiKey = '91CAFVB-VHX4RAG-GRQDV0M-X8ZP7HV';
+
+  Future<FilmInfo?> getFilmById(int id) async {
+    FilmInfo? res;
+
+    final response = await dio.get(
+        'https://api.kinopoisk.dev/v1.4/movie?limit=1'
+          '&id=$id'
+          '&selectFields=id'
+          '&selectFields=name'
+          '&selectFields=names'
+          '&selectFields=year'
+          '&selectFields=countries'
+          '&selectFields=shortDescription'
+          '&selectFields=movieLength'
+          '&selectFields=backdrop'
+          '&selectFields=genres',
+        options: Options(
+          headers: {'X-API-KEY': apiKey},
+        )
+    );
+
+    // Получение данных из API
+    final data = response.data as Map<String, dynamic>;
+    final apiResult = data['docs'];
+
+    // Формирование данных для класса FilmInfo
+    for (var i in apiResult) {
+      int id = i['id'];
+      String name = i['name'] ?? i['names'][0][0];
+      String country = List<String>.from(
+          i['countries'].map((genre) => genre['name'] as String))[0];
+      String poster = i['backdrop']['url'];
+      int year = i['year'];
+      String desc = i['shortDescription'] ?? '\nНет описания\n';
+      var genres = List<String>.from(
+          i['genres'].map((genre) => genre['name'] as String));
+      int movieLength = i['movieLength'];
+      res = FilmInfo(
+          id: id,
+          name: name,
+          country: country,
+          posterUrl: poster,
+          year: year,
+          description: desc,
+          genres: genres,
+          duration: movieLength
+      );
+    }
+
+    return res;
+  }
 
   Future<List<FilmInfo>> getFilmsList(int roomID, int theme) async {
     Set<FilmInfo> resultFilms = <FilmInfo>{};
@@ -61,8 +113,7 @@ class FilmsList {
       }
     }
 
-
-    int filmCount = 1;
+    int filmCount = 50;
 
     if (allGenres[0].isEmpty) {   // Если нет общих жанров
       var tmp = [];
@@ -192,7 +243,6 @@ class FilmsList {
           );
 
           resultFilms.add(fl);
-          print(fl.name);
         }
       }
     }
@@ -216,7 +266,6 @@ class FilmsList {
             '&selectFields=genres'
             '&genres.name=%2B${pairGenre[0]}'
             '&genres.name=%2B${pairGenre[1]}'
-            '&genres.name=аниме'
             '&type=anime'
             '&type=%21tv-series'
             '&type=%21cartoon'

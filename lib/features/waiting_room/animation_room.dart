@@ -18,24 +18,17 @@ class AnimationRoom extends StatefulWidget {
 }
 
 class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProviderStateMixin {
+  String error = "Ждем\nлюдей...";
+  // void updateError(String newError) {
+  //   updateState(() {
+  //     error = newError;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    // final args = ModalRoute.of(context)!.settings.arguments as List;
-    // final int roomID = args[0];
-    // final provider = Provider.of<CardProvider>(context, listen: false);
-    // _testResult = provider.test(roomID, 0);
   }
-
-  // Future<Future<bool>> _initializeTestResult() async {
-  //   final args = ModalRoute.of(context)!.settings.arguments as List;
-  //   final int roomID = args[0];
-  //   final provider = Provider.of<CardProvider>(context, listen: false);
-  //   // return provider.test(roomID, 0);
-  //   // _testResult = test(roomID, theme);
-  //   // setState(() {});
-  // }
 
 
   @override
@@ -78,7 +71,7 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
               // текст на звезде
               Container(
                 padding: const EdgeInsets.only(top: 80),
-                child: Text('Ждем\nлюдей...',
+                child: Text(error,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.raleway(
                     color: mainTextColor,
@@ -149,6 +142,7 @@ class _AnimationRoomState extends State<AnimationRoom> with SingleTickerProvider
                                   final isStartText = snapshot.data![2];
                                   // Проверяет значение isStart для изменения всех экранов
                                   if (isStartText is Text && isStartText.data?[0] == '1') {
+                                    // updateError("Генерируем\nкарточки...");
                                     provider.test(roomID).then((result) {
                                       print("TMP = ${result.length} and ${result.runtimeType}");
                                       Future.delayed(const Duration(milliseconds: 1000), () {

@@ -34,16 +34,22 @@ class DBChooseGenre
         Genre genre = Genre(strName.substring(16, endName), int.parse(strId.substring(13, endId)));
         genres.add(genre);
       }
+    conn.close();
     return genres;
   }
 
-  Future<void> GenresCommit(Set<int> ids, int id, MySqlConnection conn)
-  async {
-    List<int> idsList = ids.toList();
-    for (int i = 0; i < idsList.length; i++)
-      {
-        await Future.delayed(Duration(microseconds: 100000));
-        conn.query('INSERT user_choice_genre (member_id, genre_id) VALUES (?, ?);', [id, idsList[i]]);
+  Future<void> GenresCommit(Set<int> ids, int id) async {
+    try {
+      var conn = await mysql().connect();
+      List<int> idsList = ids.toList();
+      print("List = $idsList");
+      for (int i = 0; i < idsList.length; i++) {
+        await Future.delayed(const Duration(microseconds: 10));
+        await conn.query('INSERT INTO user_choice_genre (member_id, genre_id) VALUES (?, ?)', [id, idsList[i]]);
+        print("Inserted: $id, ${idsList[i]}");
       }
+    } catch (e) {
+      print("Error $e");
+    }
   }
 }

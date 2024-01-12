@@ -17,8 +17,7 @@ class mysql {
   }
 
   // Удаление комнаты с ее участниками и выбранными жанрами
-  Future<void> DeleteRoom(MySqlConnection conn, int roomId)
-  async {
+  Future<void> DeleteRoom(MySqlConnection conn, int roomId) async {
     await Future.delayed(const Duration(microseconds: 500000));
     var queryParticians = await conn.query('SELECT user_id FROM particians_of_rooms WHERE room_id = ?', [roomId]);
     for (int i = 0; i < queryParticians.length; i++)
@@ -27,6 +26,7 @@ class mysql {
       int endUserId = queryParticians.elementAt(i).toString().length - 1;
       int userId = int.parse(strUserId.substring(18, endUserId));
       await conn.query('DELETE FROM user_choice_genre WHERE member_id = ?', [userId]);
+      await conn.query('DELETE FROM user_choice WHERE member_id = ?', [userId]);
     }
     await conn.query('DELETE FROM particians_of_rooms WHERE room_id = ?', [roomId]);
     await conn.query('DELETE FROM rooms WHERE id = ?', [roomId]);
